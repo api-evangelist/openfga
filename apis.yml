@@ -10,43 +10,43 @@ description: >-
 url: https://openfga.dev
 image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-- Authorization
-- Access Control
-- Fine-Grained
-- Zanzibar
-- Cloud Native
-- Incubating
+  - Access Control
+  - Authorization
+  - Cloud Native
+  - Fine-Grained
+  - Incubating
+  - Zanzibar
 created: '2026-03-16'
 modified: '2026-03-16'
 specificationVersion: '0.19'
 type: Index
 apis:
-- aid: openfga:openfga-api
-  name: OpenFGA Authorization API
-  description: >-
-    The OpenFGA API provides HTTP and gRPC endpoints for fine-grained
-    authorization. Key operations include Check for evaluating access
-    decisions, Write for managing relationship tuples, Read for querying
-    relationships, ListObjects for finding accessible resources, and
-    Expand for debugging authorization models. The API also supports
-    store management and authorization model versioning.
-  humanURL: https://openfga.dev/docs/getting-started
-  properties:
-  - type: Documentation
-    url: https://openfga.dev/docs/getting-started
-  tags:
-  - Authorization API
-  - Fine-Grained Access
-  - Relationship Tuples
+  - aid: openfga:openfga-api
+    name: OpenFGA Authorization API
+    description: >-
+      The OpenFGA API provides HTTP and gRPC endpoints for fine-grained
+      authorization. Key operations include Check for evaluating access
+      decisions, Write for managing relationship tuples, Read for querying
+      relationships, ListObjects for finding accessible resources, and
+      Expand for debugging authorization models. The API also supports
+      store management and authorization model versioning.
+    humanURL: https://openfga.dev/docs/getting-started
+    properties:
+      - type: Documentation
+        url: https://openfga.dev/docs/getting-started
+    tags:
+      - Authorization API
+      - Fine-Grained Access
+      - Relationship Tuples
 common:
-- type: Documentation
-  name: OpenFGA Documentation
-  description: Official OpenFGA documentation.
-  url: https://openfga.dev/docs/
-- type: GitHubOrg
-  name: OpenFGA GitHub
-  description: Source code repository.
-  url: https://github.com/openfga
+  - type: Documentation
+    name: OpenFGA Documentation
+    description: Official OpenFGA documentation.
+    url: https://openfga.dev/docs/
+  - type: GitHubOrg
+    name: OpenFGA GitHub
+    description: Source code repository.
+    url: https://github.com/openfga
 maintainers:
-- FN: Kin Lane
-  email: kin@apievangelist.com
+  - FN: Kin Lane
+    email: kin@apievangelist.com

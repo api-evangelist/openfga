@@ -13,7 +13,7 @@ OpenFGA is a CNCF incubating fine-grained authorization system based on the Zanz
 
 ## Timestamps
 - **Created:** 2026-03-16
-- **Modified:** 2026-03-16
+- **Modified:** 2026-04-28
 
 ## APIs
 
@@ -27,6 +27,7 @@ HTTP and gRPC endpoints for Check, Write, Read, ListObjects, and Expand operatio
 
 #### Properties
 - [Documentation](https://openfga.dev/docs/getting-started)
+- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/openfga/refs/heads/main/openapi/openfga-openapi.json)
 
 ## Common Properties
 - [Documentation](https://openfga.dev/docs/)

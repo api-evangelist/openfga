@@ -1,0 +1,320 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: OpenFGA — Relationship Queries
+  description: 'OpenFGA — Relationship Queries. 6 operations. Lead operation: Send a list of `check` operations in a single
+    request. Self-contained Naftiko capability covering one Openfga business surface.'
+  tags:
+  - Openfga
+  - Relationship Queries
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    OPENFGA_API_KEY: OPENFGA_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: openfga-relationship-queries
+    baseUri: ''
+    description: OpenFGA — Relationship Queries business capability. Self-contained, no shared references.
+    resources:
+    - name: stores-store_id-batch-check
+      path: /stores/{store_id}/batch-check
+      operations:
+      - name: batchcheck
+        method: POST
+        description: Send a list of `check` operations in a single request
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: store_id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          required: true
+    - name: stores-store_id-check
+      path: /stores/{store_id}/check
+      operations:
+      - name: check
+        method: POST
+        description: Check whether a user is authorized to access an object
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: store_id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          required: true
+    - name: stores-store_id-expand
+      path: /stores/{store_id}/expand
+      operations:
+      - name: expand
+        method: POST
+        description: Expand all relationships in userset tree format, and following userset rewrite rules.  Useful to reason
+          about and debug a certain relationship
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: store_id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          required: true
+    - name: stores-store_id-list-objects
+      path: /stores/{store_id}/list-objects
+      operations:
+      - name: listobjects
+        method: POST
+        description: List all objects of the given type that the user has a relation with
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: store_id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          required: true
+    - name: stores-store_id-list-users
+      path: /stores/{store_id}/list-users
+      operations:
+      - name: listusers
+        method: POST
+        description: List the users matching the provided filter who have a certain relation to a particular type.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: store_id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          required: true
+    - name: stores-store_id-streamed-list-objects
+      path: /stores/{store_id}/streamed-list-objects
+      operations:
+      - name: streamedlistobjects
+        method: POST
+        description: Stream all objects of the given type that the user has a relation with
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: store_id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          required: true
+  exposes:
+  - type: rest
+    namespace: openfga-relationship-queries-rest
+    port: 8080
+    description: REST adapter for OpenFGA — Relationship Queries. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/stores/{store-id}/batch-check
+      name: stores-store-id-batch-check
+      description: REST surface for stores-store_id-batch-check.
+      operations:
+      - method: POST
+        name: batchcheck
+        description: Send a list of `check` operations in a single request
+        call: openfga-relationship-queries.batchcheck
+        with:
+          store_id: rest.store_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/stores/{store-id}/check
+      name: stores-store-id-check
+      description: REST surface for stores-store_id-check.
+      operations:
+      - method: POST
+        name: check
+        description: Check whether a user is authorized to access an object
+        call: openfga-relationship-queries.check
+        with:
+          store_id: rest.store_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/stores/{store-id}/expand
+      name: stores-store-id-expand
+      description: REST surface for stores-store_id-expand.
+      operations:
+      - method: POST
+        name: expand
+        description: Expand all relationships in userset tree format, and following userset rewrite rules.  Useful to reason
+          about and debug a certain relationship
+        call: openfga-relationship-queries.expand
+        with:
+          store_id: rest.store_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/stores/{store-id}/list-objects
+      name: stores-store-id-list-objects
+      description: REST surface for stores-store_id-list-objects.
+      operations:
+      - method: POST
+        name: listobjects
+        description: List all objects of the given type that the user has a relation with
+        call: openfga-relationship-queries.listobjects
+        with:
+          store_id: rest.store_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/stores/{store-id}/list-users
+      name: stores-store-id-list-users
+      description: REST surface for stores-store_id-list-users.
+      operations:
+      - method: POST
+        name: listusers
+        description: List the users matching the provided filter who have a certain relation to a particular type.
+        call: openfga-relationship-queries.listusers
+        with:
+          store_id: rest.store_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/stores/{store-id}/streamed-list-objects
+      name: stores-store-id-streamed-list-objects
+      description: REST surface for stores-store_id-streamed-list-objects.
+      operations:
+      - method: POST
+        name: streamedlistobjects
+        description: Stream all objects of the given type that the user has a relation with
+        call: openfga-relationship-queries.streamedlistobjects
+        with:
+          store_id: rest.store_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: openfga-relationship-queries-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for OpenFGA — Relationship Queries. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: send-list-check-operations-single
+      description: Send a list of `check` operations in a single request
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: openfga-relationship-queries.batchcheck
+      with:
+        store_id: tools.store_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: check-whether-user-is-authorized
+      description: Check whether a user is authorized to access an object
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: openfga-relationship-queries.check
+      with:
+        store_id: tools.store_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: expand-all-relationships-userset-tree
+      description: Expand all relationships in userset tree format, and following userset rewrite rules.  Useful to reason
+        about and debug a certain relationship
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: openfga-relationship-queries.expand
+      with:
+        store_id: tools.store_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-all-objects-given-type
+      description: List all objects of the given type that the user has a relation with
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: openfga-relationship-queries.listobjects
+      with:
+        store_id: tools.store_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-users-matching-provided-filter
+      description: List the users matching the provided filter who have a certain relation to a particular type.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: openfga-relationship-queries.listusers
+      with:
+        store_id: tools.store_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: stream-all-objects-given-type
+      description: Stream all objects of the given type that the user has a relation with
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: openfga-relationship-queries.streamedlistobjects
+      with:
+        store_id: tools.store_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

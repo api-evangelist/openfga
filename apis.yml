@@ -6,7 +6,7 @@ description: >-
   using a type system defined in a modeling language. OpenFGA supports authorization checks, relationship queries, and
   list operations through its API.
 url: https://openfga.dev
-image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
   - Access Control
   - Authorization

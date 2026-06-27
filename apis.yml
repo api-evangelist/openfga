@@ -45,7 +45,7 @@ common:
     name: OpenFGA GitHub
     description: Source code repository.
     url: https://github.com/openfga
-  - type: LLMsTxt
+  - type: LlmsText
     url: https://openfga.dev/llms.txt
 maintainers:
   - FN: Kin Lane

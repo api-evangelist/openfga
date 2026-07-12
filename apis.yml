@@ -37,6 +37,8 @@ apis:
       - Fine-Grained Access
       - Relationship Tuples
 common:
+  - type: DomainSecurity
+    url: security/openfga-domain-security.yml
   - type: Documentation
     name: OpenFGA Documentation
     description: Official OpenFGA documentation.
@@ -47,6 +49,8 @@ common:
     url: https://github.com/openfga
   - type: LlmsText
     url: https://openfga.dev/llms.txt
+  - type: Blog
+    url: https://openfga.dev/blog/rss.xml
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

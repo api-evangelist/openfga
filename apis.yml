@@ -37,6 +37,8 @@ apis:
       - Fine-Grained Access
       - Relationship Tuples
 common:
+  - type: AgenticAccess
+    url: agentic-access/openfga-agentic-access.yml
   - type: DomainSecurity
     url: security/openfga-domain-security.yml
   - type: Documentation

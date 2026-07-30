@@ -6,7 +6,19 @@ description: >-
   using a type system defined in a modeling language. OpenFGA supports authorization checks, relationship queries, and
   list operations through its API.
 url: https://openfga.dev
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Freemium
+  confidence: medium
+  source:
+  - plans
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/openfga.png
 tags:
   - Access Control
   - Authorization
@@ -19,23 +31,72 @@ modified: '2026-05-19'
 specificationVersion: '0.19'
 type: Index
 apis:
-  - aid: openfga:openfga-api
-    name: OpenFGA Authorization API
-    description: >-
-      The OpenFGA API provides HTTP and gRPC endpoints for fine-grained authorization. Key operations include Check for
-      evaluating access decisions, Write for managing relationship tuples, Read for querying relationships, ListObjects
-      for finding accessible resources, and Expand for debugging authorization models. The API also supports store
-      management and authorization model versioning.
-    humanURL: https://openfga.dev/docs/getting-started
-    properties:
-      - type: Documentation
-        url: https://openfga.dev/docs/getting-started
-      - type: OpenAPI
-        url: https://raw.githubusercontent.com/api-evangelist/openfga/refs/heads/main/openapi/openfga-openapi.json
-    tags:
-      - Authorization API
-      - Fine-Grained Access
-      - Relationship Tuples
+- aid: openfga:openfga-assertions-api
+  name: OpenFGA Assertions API
+  description: The Assertions API from OpenFGA — 1 operation(s) for assertions.
+  humanURL: https://openfga.dev/docs/getting-started
+  tags:
+  - Assertions
+  properties:
+  - type: OpenAPI
+    url: openapi/openfga-assertions-api-openapi.yml
+  - type: Documentation
+    url: https://openfga.dev/docs/getting-started
+- aid: openfga:openfga-authorization-models-api
+  name: OpenFGA Authorization Models API
+  description: The Authorization Models API from OpenFGA — 2 operation(s) for authorization models.
+  humanURL: https://openfga.dev/docs/getting-started
+  tags:
+  - Authorization Models
+  properties:
+  - type: OpenAPI
+    url: openapi/openfga-authorization-models-api-openapi.yml
+  - type: Documentation
+    url: https://openfga.dev/docs/getting-started
+- aid: openfga:openfga-authzenservice-api
+  name: OpenFGA AuthZenService API
+  description: The AuthZenService API from OpenFGA — 6 operation(s) for authzenservice.
+  humanURL: https://openfga.dev/docs/getting-started
+  tags:
+  - AuthZenService
+  properties:
+  - type: OpenAPI
+    url: openapi/openfga-authzenservice-api-openapi.yml
+  - type: Documentation
+    url: https://openfga.dev/docs/getting-started
+- aid: openfga:openfga-relationship-queries-api
+  name: OpenFGA Relationship Queries API
+  description: The Relationship Queries API from OpenFGA — 6 operation(s) for relationship queries.
+  humanURL: https://openfga.dev/docs/getting-started
+  tags:
+  - Relationship Queries
+  properties:
+  - type: OpenAPI
+    url: openapi/openfga-relationship-queries-api-openapi.yml
+  - type: Documentation
+    url: https://openfga.dev/docs/getting-started
+- aid: openfga:openfga-relationship-tuples-api
+  name: OpenFGA Relationship Tuples API
+  description: The Relationship Tuples API from OpenFGA — 3 operation(s) for relationship tuples.
+  humanURL: https://openfga.dev/docs/getting-started
+  tags:
+  - Relationship Tuples
+  properties:
+  - type: OpenAPI
+    url: openapi/openfga-relationship-tuples-api-openapi.yml
+  - type: Documentation
+    url: https://openfga.dev/docs/getting-started
+- aid: openfga:openfga-stores-api
+  name: OpenFGA Stores API
+  description: The Stores API from OpenFGA — 2 operation(s) for stores.
+  humanURL: https://openfga.dev/docs/getting-started
+  tags:
+  - Stores
+  properties:
+  - type: OpenAPI
+    url: openapi/openfga-stores-api-openapi.yml
+  - type: Documentation
+    url: https://openfga.dev/docs/getting-started
 common:
   - type: AgenticAccess
     url: agentic-access/openfga-agentic-access.yml

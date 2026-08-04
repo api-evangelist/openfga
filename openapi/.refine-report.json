@@ -1,0 +1,24 @@
+{
+  "provider": "openfga",
+  "sources": [
+    "openfga-assertions-api-openapi.yml",
+    "openfga-authorization-models-api-openapi.yml",
+    "openfga-authzenservice-api-openapi.yml",
+    "openfga-relationship-queries-api-openapi.yml",
+    "openfga-relationship-tuples-api-openapi.yml",
+    "openfga-stores-api-openapi.yml"
+  ],
+  "outputs": [
+    "openfga-assertions-api-openapi.yml",
+    "openfga-authorization-models-api-openapi.yml",
+    "openfga-authzenservice-api-openapi.yml",
+    "openfga-relationship-queries-api-openapi.yml",
+    "openfga-relationship-tuples-api-openapi.yml",
+    "openfga-stores-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

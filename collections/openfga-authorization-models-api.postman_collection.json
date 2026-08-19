@@ -1,0 +1,1479 @@
+{
+  "item": [
+    {
+      "id": "305b4261-a04a-4f04-958b-e426523767d4",
+      "name": "Authorization Models",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e3cbd4fe-2334-42d9-86f1-80d6d1540e62",
+          "name": "Return all the authorization models for a particular store",
+          "request": {
+            "name": "Return all the authorization models for a particular store",
+            "description": {
+              "content": "The ReadAuthorizationModels API will return all the authorization models for a certain store.\nOpenFGA's response will contain an array of all authorization models, sorted in descending order of creation.\n\n## Example\nAssume that a store's authorization model has been configured twice. To get all the authorization models that have been created in this store, call GET authorization-models. The API will return a response that looks like:\n```json\n{\n  \"authorization_models\": [\n    {\n      \"id\": \"01G50QVV17PECNVAHX1GG4Y5NC\",\n      \"type_definitions\": [...]\n    },\n    {\n      \"id\": \"01G4ZW8F4A07AKQ8RHSVG9RW04\",\n      \"type_definitions\": [...]\n    },\n  ],\n  \"continuation_token\": \"eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ==\"\n}\n```\nIf there are no more authorization models available, the `continuation_token` field will be empty\n```json\n{\n  \"authorization_models\": [\n    {\n      \"id\": \"01G50QVV17PECNVAHX1GG4Y5NC\",\n      \"type_definitions\": [...]\n    },\n    {\n      \"id\": \"01G4ZW8F4A07AKQ8RHSVG9RW04\",\n      \"type_definitions\": [...]\n    },\n  ],\n  \"continuation_token\": \"\"\n}\n```\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "stores",
+                ":store_id",
+                "authorization-models"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "continuation_token",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "store_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c938934e-58bf-4ad4-92f1-e772da1059f4",
+              "name": "A successful response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "authorization-models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "continuation_token",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"authorization_models\": [\n    {\n      \"id\": \"01G5JAVJ41T49E9TT3SKVS7X1J\",\n      \"schema_version\": \"string\",\n      \"type_definitions\": [\n        {\n          \"type\": \"user\"\n        },\n        {\n          \"type\": \"document\",\n          \"relations\": {\n            \"reader\": {\n              \"union\": {\n                \"child\": [\n                  {\n                    \"this\": {}\n                  },\n                  {\n                    \"computedUserset\": {\n                      \"object\": \"\",\n                      \"relation\": \"writer\"\n                    }\n                  }\n                ]\n              }\n            },\n            \"writer\": {\n              \"this\": {}\n            }\n          },\n          \"metadata\": {\n            \"relations\": {\n              \"reader\": {\n                \"directly_related_user_types\": [\n                  {\n                    \"type\": \"user\"\n                  }\n                ]\n              },\n              \"writer\": {\n                \"directly_related_user_types\": [\n                  {\n                    \"type\": \"user\"\n                  }\n                ]\n              }\n            }\n          }\n        }\n      ],\n      \"conditions\": {\n        \"key_0\": {\n          \"name\": \"string\",\n          \"expression\": \"string\",\n          \"parameters\": {\n            \"key_0\": {\n              \"type_name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"generic_types\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"key_1\": {\n              \"type_name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"generic_types\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"key_2\": {\n              \"type_name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"generic_types\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          \"metadata\": {\n            \"module\": \"string\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"name\": \"string\",\n          \"expression\": \"string\",\n          \"parameters\": {\n            \"key_0\": {\n              \"type_name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"generic_types\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          \"metadata\": {\n            \"module\": \"string\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      }\n    },\n    {\n      \"id\": \"01G5JAVJ41T49E9TT3SKVS7X1J\",\n      \"schema_version\": \"string\",\n      \"type_definitions\": [\n        {\n          \"type\": \"user\"\n        },\n        {\n          \"type\": \"document\",\n          \"relations\": {\n            \"reader\": {\n              \"union\": {\n                \"child\": [\n                  {\n                    \"this\": {}\n                  },\n                  {\n                    \"computedUserset\": {\n                      \"object\": \"\",\n                      \"relation\": \"writer\"\n                    }\n                  }\n                ]\n              }\n            },\n            \"writer\": {\n              \"this\": {}\n            }\n          },\n          \"metadata\": {\n            \"relations\": {\n              \"reader\": {\n                \"directly_related_user_types\": [\n                  {\n                    \"type\": \"user\"\n                  }\n                ]\n              },\n              \"writer\": {\n                \"directly_related_user_types\": [\n                  {\n                    \"type\": \"user\"\n                  }\n                ]\n              }\n            }\n          }\n        }\n      ],\n      \"conditions\": {\n        \"key_0\": {\n          \"name\": \"string\",\n          \"expression\": \"string\",\n          \"parameters\": {\n            \"key_0\": {\n              \"type_name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"generic_types\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"key_1\": {\n              \"type_name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"generic_types\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          \"metadata\": {\n            \"module\": \"string\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      }\n    }\n  ],\n  \"continuation_token\": \"eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ==\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7ebd7a2d-1661-4f99-bbb3-cc250a7ba061",
+              "name": "Request failed due to invalid input.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "authorization-models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "continuation_token",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"validation_error\",\n  \"message\": \"Generic validation error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9c91a2fa-8f46-4a41-a9ce-339df5de1a7e",
+              "name": "Not authenticated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "authorization-models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "continuation_token",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"no_error\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d736173d-f477-41da-b7f7-9a97396dd2e0",
+              "name": "Forbidden.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "authorization-models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "continuation_token",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"forbidden\",\n  \"message\": \"the principal is not authorized to perform the action\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7533f9ad-e12d-460b-813c-75ad2c439ce2",
+              "name": "Request failed due to incorrect path.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "authorization-models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "continuation_token",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"undefined_endpoint\",\n  \"message\": \"Endpoint not enabled\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "770db4ca-06e3-48ac-95e9-c9ba5016fe05",
+              "name": "Request was aborted due a transaction conflict.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "authorization-models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "continuation_token",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"10\",\n  \"message\": \"transaction conflict\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fb46c2f6-e09d-4137-bd0e-256dc3e92c92",
+              "name": "Request timed out due to excessive request throttling.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "authorization-models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "continuation_token",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"throttled_timeout_error\",\n  \"message\": \"timeout due to throttling on complex request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1da81faf-fd86-4ca1-8caf-127d0dddb297",
+              "name": "Request failed due to internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "authorization-models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "continuation_token",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal Server Error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8522b235-6e8b-4ecd-9952-453f1f7a585a",
+          "name": "Create a new authorization model",
+          "request": {
+            "name": "Create a new authorization model",
+            "description": {
+              "content": "The WriteAuthorizationModel API will add a new authorization model to a store.\nEach item in the `type_definitions` array is a type definition as specified in the field `type_definition`.\nThe response will return the authorization model's ID in the `id` field.\n\n## Example\nTo add an authorization model with `user` and `document` type definitions, call POST authorization-models API with the body: \n```json\n{\n  \"type_definitions\":[\n    {\n      \"type\":\"user\"\n    },\n    {\n      \"type\":\"document\",\n      \"relations\":{\n        \"reader\":{\n          \"union\":{\n            \"child\":[\n              {\n                \"this\":{}\n              },\n              {\n                \"computedUserset\":{\n                  \"object\":\"\",\n                  \"relation\":\"writer\"\n                }\n              }\n            ]\n          }\n        },\n        \"writer\":{\n          \"this\":{}\n        }\n      }\n    }\n  ]\n}\n```\nOpenFGA's response will include the version id for this authorization model, which will look like \n```\n{\"authorization_model_id\": \"01G50QVV17PECNVAHX1GG4Y5NC\"}\n```\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "stores",
+                ":store_id",
+                "authorization-models"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "store_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type_definitions\": [\n    {\n      \"type\": \"<string>\",\n      \"relations\": {\n        \"key_0\": {\n          \"this\": \"<object>\",\n          \"computedUserset\": {\n            \"object\": \"<string>\",\n            \"relation\": \"<string>\"\n          },\n          \"tupleToUserset\": {\n            \"tupleset\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"computedUserset\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"union\": {\n            \"child\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"intersection\": {\n            \"child\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"difference\": {\n            \"base\": {\n              \"value\": \"<Circular reference to #/components/schemas/Userset detected>\"\n            },\n            \"subtract\": {\n              \"value\": \"<Circular reference to #/components/schemas/Userset detected>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"this\": \"<object>\",\n          \"computedUserset\": {\n            \"object\": \"<string>\",\n            \"relation\": \"<string>\"\n          },\n          \"tupleToUserset\": {\n            \"tupleset\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"computedUserset\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"union\": {\n            \"child\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"intersection\": {\n            \"child\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"difference\": {\n            \"base\": {\n              \"value\": \"<Circular reference to #/components/schemas/Userset detected>\"\n            },\n            \"subtract\": {\n              \"value\": \"<Circular reference to #/components/schemas/Userset detected>\"\n            }\n          }\n        },\n        \"key_2\": {\n          \"this\": \"<object>\",\n          \"computedUserset\": {\n            \"object\": \"<string>\",\n            \"relation\": \"<string>\"\n          },\n          \"tupleToUserset\": {\n            \"tupleset\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"computedUserset\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"union\": {\n            \"child\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"intersection\": {\n            \"child\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"difference\": {\n            \"base\": {\n              \"value\": \"<Circular reference to #/components/schemas/Userset detected>\"\n            },\n            \"subtract\": {\n              \"value\": \"<Circular reference to #/components/schemas/Userset detected>\"\n            }\n          }\n        },\n        \"key_3\": {\n          \"this\": \"<object>\",\n          \"computedUserset\": {\n            \"object\": \"<string>\",\n            \"relation\": \"<string>\"\n          },\n          \"tupleToUserset\": {\n            \"tupleset\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"computedUserset\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"union\": {\n            \"child\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"intersection\": {\n            \"child\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"difference\": {\n            \"base\": {\n              \"value\": \"<Circular reference to #/components/schemas/Userset detected>\"\n            },\n            \"subtract\": {\n              \"value\": \"<Circular reference to #/components/schemas/Userset detected>\"\n            }\n          }\n        }\n      },\n      \"metadata\": {\n        \"relations\": {\n          \"key_0\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_1\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_2\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_3\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    }\n  ],\n  \"schema_version\": \"<string>\",\n  \"conditions\": {\n    \"key_0\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "704a2456-33ae-4eee-a173-d9670134238c",
+              "name": "A successful response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "authorization-models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type_definitions\": [\n    {\n      \"type\": \"document\",\n      \"relations\": {\n        \"reader\": {\n          \"union\": {\n            \"child\": [\n              {\n                \"this\": {}\n              },\n              {\n                \"computedUserset\": {\n                  \"object\": \"\",\n                  \"relation\": \"writer\"\n                }\n              }\n            ]\n          }\n        },\n        \"writer\": {\n          \"this\": {}\n        }\n      },\n      \"metadata\": {\n        \"relations\": {\n          \"key_0\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_1\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_2\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    }\n  ],\n  \"schema_version\": \"<string>\",\n  \"conditions\": {\n    \"key_0\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_1\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    },\n    \"key_1\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_1\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    },\n    \"key_2\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    },\n    \"key_3\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_1\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_2\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"authorization_model_id\": \"01G5JAVJ41T49E9TT3SKVS7X1J\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "023eb70c-8edd-472d-b65a-59c9d9533733",
+              "name": "Request failed due to invalid input.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "authorization-models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type_definitions\": [\n    {\n      \"type\": \"document\",\n      \"relations\": {\n        \"reader\": {\n          \"union\": {\n            \"child\": [\n              {\n                \"this\": {}\n              },\n              {\n                \"computedUserset\": {\n                  \"object\": \"\",\n                  \"relation\": \"writer\"\n                }\n              }\n            ]\n          }\n        },\n        \"writer\": {\n          \"this\": {}\n        }\n      },\n      \"metadata\": {\n        \"relations\": {\n          \"key_0\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_1\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_2\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    }\n  ],\n  \"schema_version\": \"<string>\",\n  \"conditions\": {\n    \"key_0\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_1\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    },\n    \"key_1\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_1\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    },\n    \"key_2\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    },\n    \"key_3\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_1\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_2\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"validation_error\",\n  \"message\": \"Generic validation error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4f2a361d-31b2-443f-b926-204881a98f38",
+              "name": "Not authenticated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "authorization-models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type_definitions\": [\n    {\n      \"type\": \"document\",\n      \"relations\": {\n        \"reader\": {\n          \"union\": {\n            \"child\": [\n              {\n                \"this\": {}\n              },\n              {\n                \"computedUserset\": {\n                  \"object\": \"\",\n                  \"relation\": \"writer\"\n                }\n              }\n            ]\n          }\n        },\n        \"writer\": {\n          \"this\": {}\n        }\n      },\n      \"metadata\": {\n        \"relations\": {\n          \"key_0\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_1\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_2\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    }\n  ],\n  \"schema_version\": \"<string>\",\n  \"conditions\": {\n    \"key_0\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_1\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    },\n    \"key_1\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_1\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    },\n    \"key_2\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    },\n    \"key_3\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_1\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_2\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"no_error\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "775391ef-8a76-47bf-8fc1-61346ba715ea",
+              "name": "Forbidden.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "authorization-models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type_definitions\": [\n    {\n      \"type\": \"document\",\n      \"relations\": {\n        \"reader\": {\n          \"union\": {\n            \"child\": [\n              {\n                \"this\": {}\n              },\n              {\n                \"computedUserset\": {\n                  \"object\": \"\",\n                  \"relation\": \"writer\"\n                }\n              }\n            ]\n          }\n        },\n        \"writer\": {\n          \"this\": {}\n        }\n      },\n      \"metadata\": {\n        \"relations\": {\n          \"key_0\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_1\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_2\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    }\n  ],\n  \"schema_version\": \"<string>\",\n  \"conditions\": {\n    \"key_0\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_1\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    },\n    \"key_1\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_1\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    },\n    \"key_2\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    },\n    \"key_3\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_1\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_2\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"forbidden\",\n  \"message\": \"the principal is not authorized to perform the action\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "45fef5ff-02f5-4f64-8fb8-57a6a8129105",
+              "name": "Request failed due to incorrect path.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "authorization-models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type_definitions\": [\n    {\n      \"type\": \"document\",\n      \"relations\": {\n        \"reader\": {\n          \"union\": {\n            \"child\": [\n              {\n                \"this\": {}\n              },\n              {\n                \"computedUserset\": {\n                  \"object\": \"\",\n                  \"relation\": \"writer\"\n                }\n              }\n            ]\n          }\n        },\n        \"writer\": {\n          \"this\": {}\n        }\n      },\n      \"metadata\": {\n        \"relations\": {\n          \"key_0\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_1\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_2\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    }\n  ],\n  \"schema_version\": \"<string>\",\n  \"conditions\": {\n    \"key_0\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_1\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    },\n    \"key_1\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_1\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    },\n    \"key_2\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    },\n    \"key_3\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_1\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_2\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"undefined_endpoint\",\n  \"message\": \"Endpoint not enabled\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fe5b2489-0320-48e9-8c56-566d77a6fc2d",
+              "name": "Request was aborted due a transaction conflict.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "authorization-models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type_definitions\": [\n    {\n      \"type\": \"document\",\n      \"relations\": {\n        \"reader\": {\n          \"union\": {\n            \"child\": [\n              {\n                \"this\": {}\n              },\n              {\n                \"computedUserset\": {\n                  \"object\": \"\",\n                  \"relation\": \"writer\"\n                }\n              }\n            ]\n          }\n        },\n        \"writer\": {\n          \"this\": {}\n        }\n      },\n      \"metadata\": {\n        \"relations\": {\n          \"key_0\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_1\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_2\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    }\n  ],\n  \"schema_version\": \"<string>\",\n  \"conditions\": {\n    \"key_0\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_1\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    },\n    \"key_1\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_1\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    },\n    \"key_2\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    },\n    \"key_3\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_1\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_2\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"10\",\n  \"message\": \"transaction conflict\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "89236d2c-0048-4cc2-a192-a1f7c375654d",
+              "name": "Request timed out due to excessive request throttling.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "authorization-models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type_definitions\": [\n    {\n      \"type\": \"document\",\n      \"relations\": {\n        \"reader\": {\n          \"union\": {\n            \"child\": [\n              {\n                \"this\": {}\n              },\n              {\n                \"computedUserset\": {\n                  \"object\": \"\",\n                  \"relation\": \"writer\"\n                }\n              }\n            ]\n          }\n        },\n        \"writer\": {\n          \"this\": {}\n        }\n      },\n      \"metadata\": {\n        \"relations\": {\n          \"key_0\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_1\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_2\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    }\n  ],\n  \"schema_version\": \"<string>\",\n  \"conditions\": {\n    \"key_0\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_1\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    },\n    \"key_1\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_1\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    },\n    \"key_2\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    },\n    \"key_3\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_1\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_2\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"throttled_timeout_error\",\n  \"message\": \"timeout due to throttling on complex request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "35caffa9-e98c-476c-995c-ebb45aafeae9",
+              "name": "Request failed due to internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "authorization-models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type_definitions\": [\n    {\n      \"type\": \"document\",\n      \"relations\": {\n        \"reader\": {\n          \"union\": {\n            \"child\": [\n              {\n                \"this\": {}\n              },\n              {\n                \"computedUserset\": {\n                  \"object\": \"\",\n                  \"relation\": \"writer\"\n                }\n              }\n            ]\n          }\n        },\n        \"writer\": {\n          \"this\": {}\n        }\n      },\n      \"metadata\": {\n        \"relations\": {\n          \"key_0\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_1\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_2\": {\n            \"directly_related_user_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"module\": \"<string>\",\n            \"source_info\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    }\n  ],\n  \"schema_version\": \"<string>\",\n  \"conditions\": {\n    \"key_0\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_1\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    },\n    \"key_1\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_1\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    },\n    \"key_2\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    },\n    \"key_3\": {\n      \"name\": \"<string>\",\n      \"expression\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_1\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        },\n        \"key_2\": {\n          \"type_name\": \"TYPE_NAME_UNSPECIFIED\",\n          \"generic_types\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ConditionParamTypeRef detected>\"\n            }\n          ]\n        }\n      },\n      \"metadata\": {\n        \"module\": \"<string>\",\n        \"source_info\": {\n          \"file\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal Server Error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "87703061-ec32-48f9-b2c8-d2204f8a6045",
+          "name": "Return a particular version of an authorization model",
+          "request": {
+            "name": "Return a particular version of an authorization model",
+            "description": {
+              "content": "The ReadAuthorizationModel API returns an authorization model by its identifier.\nThe response will return the authorization model for the particular version.\n\n## Example\nTo retrieve the authorization model with ID `01G5JAVJ41T49E9TT3SKVS7X1J` for the store, call the GET authorization-models by ID API with `01G5JAVJ41T49E9TT3SKVS7X1J` as the `id` path parameter.  The API will return:\n```json\n{\n  \"authorization_model\":{\n    \"id\":\"01G5JAVJ41T49E9TT3SKVS7X1J\",\n    \"type_definitions\":[\n      {\n        \"type\":\"user\"\n      },\n      {\n        \"type\":\"document\",\n        \"relations\":{\n          \"reader\":{\n            \"union\":{\n              \"child\":[\n                {\n                  \"this\":{}\n                },\n                {\n                  \"computedUserset\":{\n                    \"object\":\"\",\n                    \"relation\":\"writer\"\n                  }\n                }\n              ]\n            }\n          },\n          \"writer\":{\n            \"this\":{}\n          }\n        }\n      }\n    ]\n  }\n}\n```\nIn the above example, there are 2 types (`user` and `document`). The `document` type has 2 relations (`writer` and `reader`).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "stores",
+                ":store_id",
+                "authorization-models",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "store_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "63f489b5-108d-4e28-a1ea-90d10b617a0c",
+              "name": "A successful response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "authorization-models",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"authorization_model\": {\n    \"id\": \"01G5JAVJ41T49E9TT3SKVS7X1J\",\n    \"schema_version\": \"string\",\n    \"type_definitions\": [\n      {\n        \"type\": \"user\"\n      },\n      {\n        \"type\": \"document\",\n        \"relations\": {\n          \"reader\": {\n            \"union\": {\n              \"child\": [\n                {\n                  \"this\": {}\n                },\n                {\n                  \"computedUserset\": {\n                    \"object\": \"\",\n                    \"relation\": \"writer\"\n                  }\n                }\n              ]\n            }\n          },\n          \"writer\": {\n            \"this\": {}\n          }\n        },\n        \"metadata\": {\n          \"relations\": {\n            \"reader\": {\n              \"directly_related_user_types\": [\n                {\n                  \"type\": \"user\"\n                }\n              ]\n            },\n            \"writer\": {\n              \"directly_related_user_types\": [\n                {\n                  \"type\": \"user\"\n                }\n              ]\n            }\n          }\n        }\n      }\n    ],\n    \"conditions\": {\n      \"key_0\": {\n        \"name\": \"<string>\",\n        \"expression\": \"<string>\",\n        \"parameters\": {\n          \"key_0\": {\n            \"type_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"generic_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          }\n        },\n        \"metadata\": {\n          \"module\": \"<string>\",\n          \"source_info\": {\n            \"file\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"key_1\": {\n        \"name\": \"<string>\",\n        \"expression\": \"<string>\",\n        \"parameters\": {\n          \"key_0\": {\n            \"type_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"generic_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"key_1\": {\n            \"type_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"generic_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"key_2\": {\n            \"type_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"generic_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          }\n        },\n        \"metadata\": {\n          \"module\": \"<string>\",\n          \"source_info\": {\n            \"file\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"key_2\": {\n        \"name\": \"<string>\",\n        \"expression\": \"<string>\",\n        \"parameters\": {\n          \"key_0\": {\n            \"type_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"generic_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"key_1\": {\n            \"type_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"generic_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"key_2\": {\n            \"type_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"generic_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"key_3\": {\n            \"type_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"generic_types\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          }\n        },\n        \"metadata\": {\n          \"module\": \"<string>\",\n          \"source_info\": {\n            \"file\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8dd4ed5b-f62b-411c-8104-72c5a861e7e0",
+              "name": "Request failed due to invalid input.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "authorization-models",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"validation_error\",\n  \"message\": \"Generic validation error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "94bbadf9-3c17-485d-b57f-de9c716ac2da",
+              "name": "Not authenticated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "authorization-models",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"no_error\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d865a44e-9de6-46e9-90ab-fe65df6225d8",
+              "name": "Forbidden.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "authorization-models",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"forbidden\",\n  \"message\": \"the principal is not authorized to perform the action\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3ce701bd-391e-4cfd-9f96-91909d9beea4",
+              "name": "Request failed due to incorrect path.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "authorization-models",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"undefined_endpoint\",\n  \"message\": \"Endpoint not enabled\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2ef71e9e-ccdc-4346-8aa8-4d84d381a50c",
+              "name": "Request was aborted due a transaction conflict.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "authorization-models",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"10\",\n  \"message\": \"transaction conflict\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "14dbe916-8bcb-47db-9f43-085908b26f1d",
+              "name": "Request timed out due to excessive request throttling.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "authorization-models",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"throttled_timeout_error\",\n  \"message\": \"timeout due to throttling on complex request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "313eb53b-bc92-462b-8ac0-93fcd2cd9106",
+              "name": "Request failed due to internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "authorization-models",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal Server Error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "3feca32a-a019-4c72-a706-bfc7fbe256b6",
+    "name": "OpenFGA Assertions Authorization Models API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "A high performance and flexible authorization/permission engine built for developers and inspired by Google Zanzibar.\n\nContact Support:\n Name: OpenFGA\n Email: community@openfga.dev",
+      "type": "text/plain"
+    }
+  }
+}

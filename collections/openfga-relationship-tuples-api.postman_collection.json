@@ -1,0 +1,1559 @@
+{
+  "item": [
+    {
+      "id": "a38476b4-c19c-4536-80ca-97878fef2651",
+      "name": "Relationship Tuples",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b54ebfd3-4761-47dc-9ef3-e638d496fc98",
+          "name": "Return a list of all the tuple changes",
+          "request": {
+            "name": "Return a list of all the tuple changes",
+            "description": {
+              "content": "The ReadChanges API will return a paginated list of tuple changes (additions and deletions) that occurred in a given store, sorted by ascending time. The response will include a continuation token that is used to get the next set of changes. If there are no changes after the provided continuation token, the same token will be returned in order for it to be used when new changes are recorded. If the store never had any tuples added or removed, this token will be empty.\nYou can use the `type` parameter to only get the list of tuple changes that affect objects of that type.\nWhen reading a write tuple change, if it was conditioned, the condition will be returned.\nWhen reading a delete tuple change, the condition will NOT be returned regardless of whether it was originally conditioned or not.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "stores",
+                ":store_id",
+                "changes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "continuation_token",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "start_time",
+                  "value": "<dateTime>",
+                  "description": "Start date and time of changes to read.\nFormat: ISO 8601 timestamp (e.g., 2022-01-01T00:00:00Z)\nIf a continuation_token is provided along side start_time, the continuation_token will take precedence over start_time."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "store_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "159ad30c-24a3-4839-9ece-d69ed5e1ae1f",
+              "name": "A successful response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "changes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "continuation_token",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_time",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"changes\": [\n    {\n      \"tuple_key\": {\n        \"user\": \"user:anne\",\n        \"relation\": \"reader\",\n        \"object\": \"document:2021-budget\",\n        \"condition\": {\n          \"name\": \"condition1\",\n          \"context\": {}\n        }\n      },\n      \"operation\": \"TUPLE_OPERATION_WRITE\",\n      \"timestamp\": \"1981-11-15T20:34:22.335Z\"\n    },\n    {\n      \"tuple_key\": {\n        \"user\": \"user:anne\",\n        \"relation\": \"reader\",\n        \"object\": \"document:2021-budget\",\n        \"condition\": {\n          \"name\": \"condition1\",\n          \"context\": {}\n        }\n      },\n      \"operation\": \"TUPLE_OPERATION_WRITE\",\n      \"timestamp\": \"1998-10-06T01:57:17.972Z\"\n    }\n  ],\n  \"continuation_token\": \"eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ==\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6293442c-f46e-4903-b27d-c5bf94332697",
+              "name": "Request failed due to invalid input.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "changes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "continuation_token",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_time",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"validation_error\",\n  \"message\": \"Generic validation error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e91a8f42-9634-485f-9041-7283a1d18c30",
+              "name": "Not authenticated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "changes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "continuation_token",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_time",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"no_error\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9edcaac9-7040-4ee5-9129-7874fb622796",
+              "name": "Forbidden.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "changes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "continuation_token",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_time",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"forbidden\",\n  \"message\": \"the principal is not authorized to perform the action\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f6e88bb0-4161-4e39-89b0-f986411ce280",
+              "name": "Request failed due to incorrect path.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "changes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "continuation_token",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_time",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"undefined_endpoint\",\n  \"message\": \"Endpoint not enabled\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d2fac411-14c1-464b-9aff-4ea0df57c43d",
+              "name": "Request was aborted due a transaction conflict.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "changes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "continuation_token",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_time",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"10\",\n  \"message\": \"transaction conflict\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d292fa05-7c3f-4684-acc1-90dbdc6545c4",
+              "name": "Request timed out due to excessive request throttling.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "changes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "continuation_token",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_time",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"throttled_timeout_error\",\n  \"message\": \"timeout due to throttling on complex request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "12e89ed7-8f33-4ac0-b284-da33283b12f5",
+              "name": "Request failed due to internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "changes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "continuation_token",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_time",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal Server Error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d460916b-97b9-40be-a75f-6191e0a3bdad",
+          "name": "Get tuples from the store that matches a query, without following userset rewrite rules",
+          "request": {
+            "name": "Get tuples from the store that matches a query, without following userset rewrite rules",
+            "description": {
+              "content": "The Read API will return the tuples for a certain store that match a query filter specified in the body of the request. \nThe API doesn't guarantee order by any field. \nIt is different from the `/stores/{store_id}/expand` API in that it only returns relationship tuples that are stored in the system and satisfy the query. \nIn the body:\n1. `tuple_key` is optional. If not specified, it will return all tuples in the store.\n2. `tuple_key.object` is mandatory if `tuple_key` is specified. It can be a full object (e.g., `type:object_id`) or type only (e.g., `type:`).\n3. `tuple_key.user` is mandatory if tuple_key is specified in the case the `tuple_key.object` is a type only. If tuple_key.user is specified, it needs to be a full object (e.g., `type:user_id`).\n## Examples\n### Query for all objects in a type definition\nTo query for all objects that `user:bob` has `reader` relationship in the `document` type definition, call read API with body of\n```json\n{\n \"tuple_key\": {\n     \"user\": \"user:bob\",\n     \"relation\": \"reader\",\n     \"object\": \"document:\"\n  }\n}\n```\nThe API will return tuples and a continuation token, something like\n```json\n{\n  \"tuples\": [\n    {\n      \"key\": {\n        \"user\": \"user:bob\",\n        \"relation\": \"reader\",\n        \"object\": \"document:2021-budget\"\n      },\n      \"timestamp\": \"2021-10-06T15:32:11.128Z\"\n    }\n  ],\n  \"continuation_token\": \"eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ==\"\n}\n```\nThis means that `user:bob` has a `reader` relationship with 1 document `document:2021-budget`. Note that this API, unlike the List Objects API, does not evaluate the tuples in the store.\nThe continuation token will be empty if there are no more tuples to query.\n### Query for all stored relationship tuples that have a particular relation and object\nTo query for all users that have `reader` relationship with `document:2021-budget`, call read API with body of \n```json\n{\n  \"tuple_key\": {\n     \"object\": \"document:2021-budget\",\n     \"relation\": \"reader\"\n   }\n}\n```\nThe API will return something like \n```json\n{\n  \"tuples\": [\n    {\n      \"key\": {\n        \"user\": \"user:bob\",\n        \"relation\": \"reader\",\n        \"object\": \"document:2021-budget\"\n      },\n      \"timestamp\": \"2021-10-06T15:32:11.128Z\"\n    }\n  ],\n  \"continuation_token\": \"eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ==\"\n}\n```\nThis means that `document:2021-budget` has 1 `reader` (`user:bob`).  Note that, even if the model said that all `writers` are also `readers`, the API will not return writers such as `user:anne` because it only returns tuples and does not evaluate them.\n### Query for all users with all relationships for a particular document\nTo query for all users that have any relationship with `document:2021-budget`, call read API with body of \n```json\n{\n  \"tuple_key\": {\n      \"object\": \"document:2021-budget\"\n   }\n}\n```\nThe API will return something like \n```json\n{\n  \"tuples\": [\n    {\n      \"key\": {\n        \"user\": \"user:anne\",\n        \"relation\": \"writer\",\n        \"object\": \"document:2021-budget\"\n      },\n      \"timestamp\": \"2021-10-05T13:42:12.356Z\"\n    },\n    {\n      \"key\": {\n        \"user\": \"user:bob\",\n        \"relation\": \"reader\",\n        \"object\": \"document:2021-budget\"\n      },\n      \"timestamp\": \"2021-10-06T15:32:11.128Z\"\n    }\n  ],\n  \"continuation_token\": \"eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ==\"\n}\n```\nThis means that `document:2021-budget` has 1 `reader` (`user:bob`) and 1 `writer` (`user:anne`).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "stores",
+                ":store_id",
+                "read"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "store_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tuple_key\": {\n    \"user\": \"<string>\",\n    \"relation\": \"<string>\",\n    \"object\": \"<string>\"\n  },\n  \"page_size\": \"<integer>\",\n  \"continuation_token\": \"<string>\",\n  \"consistency\": \"UNSPECIFIED\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3cdc5512-fd09-42a2-9f29-aa6bb1e24847",
+              "name": "A successful response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "read"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tuple_key\": {\n    \"user\": \"user:anne\",\n    \"relation\": \"reader\",\n    \"object\": \"document:2021-budget\"\n  },\n  \"page_size\": 50,\n  \"continuation_token\": \"eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ==\",\n  \"consistency\": \"MINIMIZE_LATENCY\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"tuples\": [\n    {\n      \"key\": {\n        \"user\": \"user:anne\",\n        \"relation\": \"reader\",\n        \"object\": \"document:2021-budget\",\n        \"condition\": {\n          \"name\": \"condition1\",\n          \"context\": {}\n        }\n      },\n      \"timestamp\": \"2010-12-31T14:30:44.456Z\"\n    },\n    {\n      \"key\": {\n        \"user\": \"user:anne\",\n        \"relation\": \"reader\",\n        \"object\": \"document:2021-budget\",\n        \"condition\": {\n          \"name\": \"condition1\",\n          \"context\": {}\n        }\n      },\n      \"timestamp\": \"1965-06-16T16:28:59.281Z\"\n    }\n  ],\n  \"continuation_token\": \"eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ==\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "23cc1b06-fc8c-4c26-887c-d3e6731cdf81",
+              "name": "Request failed due to invalid input.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "read"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tuple_key\": {\n    \"user\": \"user:anne\",\n    \"relation\": \"reader\",\n    \"object\": \"document:2021-budget\"\n  },\n  \"page_size\": 50,\n  \"continuation_token\": \"eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ==\",\n  \"consistency\": \"MINIMIZE_LATENCY\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"validation_error\",\n  \"message\": \"Generic validation error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fe45d798-86d9-4c63-9400-1649018c4ec1",
+              "name": "Not authenticated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "read"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tuple_key\": {\n    \"user\": \"user:anne\",\n    \"relation\": \"reader\",\n    \"object\": \"document:2021-budget\"\n  },\n  \"page_size\": 50,\n  \"continuation_token\": \"eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ==\",\n  \"consistency\": \"MINIMIZE_LATENCY\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"no_error\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "836d7026-322d-44f1-9b41-6f7ee32f58ae",
+              "name": "Forbidden.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "read"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tuple_key\": {\n    \"user\": \"user:anne\",\n    \"relation\": \"reader\",\n    \"object\": \"document:2021-budget\"\n  },\n  \"page_size\": 50,\n  \"continuation_token\": \"eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ==\",\n  \"consistency\": \"MINIMIZE_LATENCY\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"forbidden\",\n  \"message\": \"the principal is not authorized to perform the action\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fb7ed9ee-5029-498d-ba6a-a694d249d560",
+              "name": "Request failed due to incorrect path.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "read"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tuple_key\": {\n    \"user\": \"user:anne\",\n    \"relation\": \"reader\",\n    \"object\": \"document:2021-budget\"\n  },\n  \"page_size\": 50,\n  \"continuation_token\": \"eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ==\",\n  \"consistency\": \"MINIMIZE_LATENCY\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"undefined_endpoint\",\n  \"message\": \"Endpoint not enabled\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e55ea158-6b34-44f4-b25f-604144b46dbe",
+              "name": "Request was aborted due a transaction conflict.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "read"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tuple_key\": {\n    \"user\": \"user:anne\",\n    \"relation\": \"reader\",\n    \"object\": \"document:2021-budget\"\n  },\n  \"page_size\": 50,\n  \"continuation_token\": \"eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ==\",\n  \"consistency\": \"MINIMIZE_LATENCY\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"10\",\n  \"message\": \"transaction conflict\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "49122a1b-0637-4535-ab99-4355c83359fb",
+              "name": "Request timed out due to excessive request throttling.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "read"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tuple_key\": {\n    \"user\": \"user:anne\",\n    \"relation\": \"reader\",\n    \"object\": \"document:2021-budget\"\n  },\n  \"page_size\": 50,\n  \"continuation_token\": \"eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ==\",\n  \"consistency\": \"MINIMIZE_LATENCY\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"throttled_timeout_error\",\n  \"message\": \"timeout due to throttling on complex request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b8f6c28e-d617-493b-b602-4be590e5ff9a",
+              "name": "Request failed due to internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "read"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tuple_key\": {\n    \"user\": \"user:anne\",\n    \"relation\": \"reader\",\n    \"object\": \"document:2021-budget\"\n  },\n  \"page_size\": 50,\n  \"continuation_token\": \"eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ==\",\n  \"consistency\": \"MINIMIZE_LATENCY\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal Server Error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2ba71e55-a569-4b3b-a858-d4fdedd9c30c",
+          "name": "Add or delete tuples from the store",
+          "request": {
+            "name": "Add or delete tuples from the store",
+            "description": {
+              "content": "The Write API will transactionally update the tuples for a certain store. Tuples and type definitions allow OpenFGA to determine whether a relationship exists between an object and an user.\nIn the body, `writes` adds new tuples and `deletes` removes existing tuples. When deleting a tuple, any `condition` specified with it is ignored.\nThe API is not idempotent by default: if, later on, you try to add the same tuple key (even if the `condition` is different), or if you try to delete a non-existing tuple, it will throw an error.\nTo allow writes when an identical tuple already exists in the database, set `\"on_duplicate\": \"ignore\"` on the `writes` object.\nTo allow deletes when a tuple was already removed from the database, set `\"on_missing\": \"ignore\"` on the `deletes` object.\nIf a Write request contains both idempotent (ignore) and non-idempotent (error) operations, the most restrictive action (error) will take precedence. If a condition fails for a sub-request with an error flag, the entire transaction will be rolled back. This gives developers explicit control over the atomicity of the requests.\nThe API will not allow you to write tuples such as `document:2021-budget#viewer@document:2021-budget#viewer`, because they are implicit.\nAn `authorization_model_id` may be specified in the body. If it is, it will be used to assert that each written tuple (not deleted) is valid for the model specified. If it is not specified, the latest authorization model ID will be used.\n## Example\n### Adding relationships\nTo add `user:anne` as a `writer` for `document:2021-budget`, call write API with the following \n```json\n{\n  \"writes\": {\n    \"tuple_keys\": [\n      {\n        \"user\": \"user:anne\",\n        \"relation\": \"writer\",\n        \"object\": \"document:2021-budget\"\n      }\n    ],\n    \"on_duplicate\": \"ignore\"\n  },\n  \"authorization_model_id\": \"01G50QVV17PECNVAHX1GG4Y5NC\"\n}\n```\n### Removing relationships\nTo remove `user:bob` as a `reader` for `document:2021-budget`, call write API with the following \n```json\n{\n  \"deletes\": {\n    \"tuple_keys\": [\n      {\n        \"user\": \"user:bob\",\n        \"relation\": \"reader\",\n        \"object\": \"document:2021-budget\"\n      }\n    ],\n    \"on_missing\": \"ignore\"\n  }\n}\n```\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "stores",
+                ":store_id",
+                "write"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "store_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"writes\": {\n    \"tuple_keys\": [\n      {\n        \"user\": \"<string>\",\n        \"relation\": \"<string>\",\n        \"object\": \"<string>\",\n        \"condition\": {\n          \"name\": \"<string>\",\n          \"context\": \"<object>\"\n        }\n      }\n    ],\n    \"on_duplicate\": \"error\"\n  },\n  \"deletes\": {\n    \"tuple_keys\": [\n      {\n        \"user\": \"<string>\",\n        \"relation\": \"<string>\",\n        \"object\": \"<string>\"\n      }\n    ],\n    \"on_missing\": \"error\"\n  },\n  \"authorization_model_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3c3e0502-f79a-40fa-bd78-d24117709a9b",
+              "name": "A successful response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "write"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"writes\": {\n    \"tuple_keys\": [\n      {\n        \"user\": \"user:anne\",\n        \"relation\": \"reader\",\n        \"object\": \"document:2021-budget\",\n        \"condition\": {\n          \"name\": \"condition1\",\n          \"context\": \"<object>\"\n        }\n      }\n    ],\n    \"on_duplicate\": \"ignore\"\n  },\n  \"deletes\": {\n    \"tuple_keys\": [\n      {\n        \"user\": \"user:anne\",\n        \"relation\": \"reader\",\n        \"object\": \"document:2021-budget\"\n      }\n    ],\n    \"on_missing\": \"ignore\"\n  },\n  \"authorization_model_id\": \"01G5JAVJ41T49E9TT3SKVS7X1J\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bcf474f1-e237-4bdf-9b5c-1d3dc3d111f6",
+              "name": "Request failed due to invalid input.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "write"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"writes\": {\n    \"tuple_keys\": [\n      {\n        \"user\": \"user:anne\",\n        \"relation\": \"reader\",\n        \"object\": \"document:2021-budget\",\n        \"condition\": {\n          \"name\": \"condition1\",\n          \"context\": \"<object>\"\n        }\n      }\n    ],\n    \"on_duplicate\": \"ignore\"\n  },\n  \"deletes\": {\n    \"tuple_keys\": [\n      {\n        \"user\": \"user:anne\",\n        \"relation\": \"reader\",\n        \"object\": \"document:2021-budget\"\n      }\n    ],\n    \"on_missing\": \"ignore\"\n  },\n  \"authorization_model_id\": \"01G5JAVJ41T49E9TT3SKVS7X1J\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"validation_error\",\n  \"message\": \"Generic validation error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e2b0b7a3-39da-465c-aec8-134505be0219",
+              "name": "Not authenticated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "write"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"writes\": {\n    \"tuple_keys\": [\n      {\n        \"user\": \"user:anne\",\n        \"relation\": \"reader\",\n        \"object\": \"document:2021-budget\",\n        \"condition\": {\n          \"name\": \"condition1\",\n          \"context\": \"<object>\"\n        }\n      }\n    ],\n    \"on_duplicate\": \"ignore\"\n  },\n  \"deletes\": {\n    \"tuple_keys\": [\n      {\n        \"user\": \"user:anne\",\n        \"relation\": \"reader\",\n        \"object\": \"document:2021-budget\"\n      }\n    ],\n    \"on_missing\": \"ignore\"\n  },\n  \"authorization_model_id\": \"01G5JAVJ41T49E9TT3SKVS7X1J\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"no_error\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7ebae345-f0d9-4da6-9b69-0476550bf964",
+              "name": "Forbidden.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "write"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"writes\": {\n    \"tuple_keys\": [\n      {\n        \"user\": \"user:anne\",\n        \"relation\": \"reader\",\n        \"object\": \"document:2021-budget\",\n        \"condition\": {\n          \"name\": \"condition1\",\n          \"context\": \"<object>\"\n        }\n      }\n    ],\n    \"on_duplicate\": \"ignore\"\n  },\n  \"deletes\": {\n    \"tuple_keys\": [\n      {\n        \"user\": \"user:anne\",\n        \"relation\": \"reader\",\n        \"object\": \"document:2021-budget\"\n      }\n    ],\n    \"on_missing\": \"ignore\"\n  },\n  \"authorization_model_id\": \"01G5JAVJ41T49E9TT3SKVS7X1J\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"forbidden\",\n  \"message\": \"the principal is not authorized to perform the action\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "566622e8-b61c-4dc9-86e6-19d3fc1b307e",
+              "name": "Request failed due to incorrect path.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "write"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"writes\": {\n    \"tuple_keys\": [\n      {\n        \"user\": \"user:anne\",\n        \"relation\": \"reader\",\n        \"object\": \"document:2021-budget\",\n        \"condition\": {\n          \"name\": \"condition1\",\n          \"context\": \"<object>\"\n        }\n      }\n    ],\n    \"on_duplicate\": \"ignore\"\n  },\n  \"deletes\": {\n    \"tuple_keys\": [\n      {\n        \"user\": \"user:anne\",\n        \"relation\": \"reader\",\n        \"object\": \"document:2021-budget\"\n      }\n    ],\n    \"on_missing\": \"ignore\"\n  },\n  \"authorization_model_id\": \"01G5JAVJ41T49E9TT3SKVS7X1J\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"undefined_endpoint\",\n  \"message\": \"Endpoint not enabled\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b0c85d7a-4beb-4bff-8a75-1f760138c8e7",
+              "name": "Request was aborted due a transaction conflict.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "write"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"writes\": {\n    \"tuple_keys\": [\n      {\n        \"user\": \"user:anne\",\n        \"relation\": \"reader\",\n        \"object\": \"document:2021-budget\",\n        \"condition\": {\n          \"name\": \"condition1\",\n          \"context\": \"<object>\"\n        }\n      }\n    ],\n    \"on_duplicate\": \"ignore\"\n  },\n  \"deletes\": {\n    \"tuple_keys\": [\n      {\n        \"user\": \"user:anne\",\n        \"relation\": \"reader\",\n        \"object\": \"document:2021-budget\"\n      }\n    ],\n    \"on_missing\": \"ignore\"\n  },\n  \"authorization_model_id\": \"01G5JAVJ41T49E9TT3SKVS7X1J\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"10\",\n  \"message\": \"transaction conflict\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "33b59ef6-21a2-4505-a544-25fc0c603c3f",
+              "name": "Request timed out due to excessive request throttling.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "write"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"writes\": {\n    \"tuple_keys\": [\n      {\n        \"user\": \"user:anne\",\n        \"relation\": \"reader\",\n        \"object\": \"document:2021-budget\",\n        \"condition\": {\n          \"name\": \"condition1\",\n          \"context\": \"<object>\"\n        }\n      }\n    ],\n    \"on_duplicate\": \"ignore\"\n  },\n  \"deletes\": {\n    \"tuple_keys\": [\n      {\n        \"user\": \"user:anne\",\n        \"relation\": \"reader\",\n        \"object\": \"document:2021-budget\"\n      }\n    ],\n    \"on_missing\": \"ignore\"\n  },\n  \"authorization_model_id\": \"01G5JAVJ41T49E9TT3SKVS7X1J\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"throttled_timeout_error\",\n  \"message\": \"timeout due to throttling on complex request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8d11a557-25b0-429f-a077-6368c66cb920",
+              "name": "Request failed due to internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stores",
+                    ":store_id",
+                    "write"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "store_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"writes\": {\n    \"tuple_keys\": [\n      {\n        \"user\": \"user:anne\",\n        \"relation\": \"reader\",\n        \"object\": \"document:2021-budget\",\n        \"condition\": {\n          \"name\": \"condition1\",\n          \"context\": \"<object>\"\n        }\n      }\n    ],\n    \"on_duplicate\": \"ignore\"\n  },\n  \"deletes\": {\n    \"tuple_keys\": [\n      {\n        \"user\": \"user:anne\",\n        \"relation\": \"reader\",\n        \"object\": \"document:2021-budget\"\n      }\n    ],\n    \"on_missing\": \"ignore\"\n  },\n  \"authorization_model_id\": \"01G5JAVJ41T49E9TT3SKVS7X1J\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal Server Error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "7acc7148-1129-4404-8ba3-66acfbfb8540",
+    "name": "OpenFGA Assertions Relationship Tuples API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "A high performance and flexible authorization/permission engine built for developers and inspired by Google Zanzibar.\n\nContact Support:\n Name: OpenFGA\n Email: community@openfga.dev",
+      "type": "text/plain"
+    }
+  }
+}

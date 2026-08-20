@@ -22,6 +22,13 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/openfga.pn
 tags:
   - Access Control
   - Authorization
+  - Cloud-Native
+  - Fine-Grained
+  - Incubating
+  - Zanzibar
+tags_raw:
+  - Access Control
+  - Authorization
   - Cloud Native
   - Fine-Grained
   - Incubating

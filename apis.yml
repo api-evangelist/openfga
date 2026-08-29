@@ -6,6 +6,17 @@ description: >-
   using a type system defined in a modeling language. OpenFGA supports authorization checks, relationship queries, and
   list operations through its API.
 url: https://openfga.dev
+deliveryModel:
+  model: unknown
+  open_source: false
+  commercial: false
+  callable_host: false
+  label: Delivery model not determined — needs a product licence on record
+  confidence: low
+  source:
+  - openapi
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: unknown

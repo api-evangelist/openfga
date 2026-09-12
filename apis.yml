@@ -116,6 +116,8 @@ apis:
   - type: Documentation
     url: https://openfga.dev/docs/getting-started
 common:
+  - type: Website
+    url: https://www.openfga.dev/
   - type: AgenticAccess
     url: agentic-access/openfga-agentic-access.yml
   - type: DomainSecurity

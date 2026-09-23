@@ -1,6 +1,6 @@
-swagger: '2.0'
+openapi: 3.2.0
 info:
-  title: OpenFGA Assertions AuthZenService API
+  title: OpenFGA Auth Zen Service API
   description: A high performance and flexible authorization/permission engine built for developers and inspired by Google Zanzibar.
   version: 1.x
   contact:
@@ -10,53 +10,89 @@ info:
   license:
     name: Apache-2.0
     url: https://github.com/openfga/openfga/blob/main/LICENSE
-schemes:
-- https
-consumes:
-- application/json
-produces:
-- application/json
 tags:
 - name: AuthZenService
 paths:
   /.well-known/authzen-configuration/{store_id}:
     get:
       summary: '[Experimental] Get AuthZEN PDP configuration and capabilities'
-      description: "[Experimental] The GetConfiguration API returns metadata about the Policy Decision Point (PDP) including its name, version, supported endpoints, and capabilities. This endpoint follows the AuthZEN specification for PDP discovery.\n\nFollowing the AuthZEN spec's multi-tenant pattern, OpenFGA provides a per-store discovery endpoint at `/.well-known/authzen-configuration/{store_id}`. This returns absolute endpoint URLs specific to that store.\n\n## Example Response\n```json\n{\n  \"policy_decision_point\": \"https://example.com/stores/01ARZ3NDEKTSV4RRFFQ69G5FAV\",\n  \"access_evaluation_endpoint\": \"https://example.com/stores/01ARZ3NDEKTSV4RRFFQ69G5FAV/access/v1/evaluation\",\n  \"access_evaluations_endpoint\": \"https://example.com/stores/01ARZ3NDEKTSV4RRFFQ69G5FAV/access/v1/evaluations\",\n  \"search_subject_endpoint\": \"https://example.com/stores/01ARZ3NDEKTSV4RRFFQ69G5FAV/access/v1/search/subject\",\n  \"search_resource_endpoint\": \"https://example.com/stores/01ARZ3NDEKTSV4RRFFQ69G5FAV/access/v1/search/resource\",\n  \"search_action_endpoint\": \"https://example.com/stores/01ARZ3NDEKTSV4RRFFQ69G5FAV/access/v1/search/action\"\n}\n```\n"
+      description: '[Experimental] The GetConfiguration API returns metadata about the Policy Decision Point (PDP) including its name, version, supported endpoints, and capabilities. This endpoint follows the AuthZEN specification for PDP discovery.
+
+
+        Following the AuthZEN spec''s multi-tenant pattern, OpenFGA provides a per-store discovery endpoint at `/.well-known/authzen-configuration/{store_id}`. This returns absolute endpoint URLs specific to that store.
+
+
+        ## Example Response
+
+        ```json
+
+        {
+
+        "policy_decision_point": "https://example.com/stores/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+
+        "access_evaluation_endpoint": "https://example.com/stores/01ARZ3NDEKTSV4RRFFQ69G5FAV/access/v1/evaluation",
+
+        "access_evaluations_endpoint": "https://example.com/stores/01ARZ3NDEKTSV4RRFFQ69G5FAV/access/v1/evaluations",
+
+        "search_subject_endpoint": "https://example.com/stores/01ARZ3NDEKTSV4RRFFQ69G5FAV/access/v1/search/subject",
+
+        "search_resource_endpoint": "https://example.com/stores/01ARZ3NDEKTSV4RRFFQ69G5FAV/access/v1/search/resource",
+
+        "search_action_endpoint": "https://example.com/stores/01ARZ3NDEKTSV4RRFFQ69G5FAV/access/v1/search/action"
+
+        }
+
+        ```'
       operationId: GetConfiguration
       responses:
         '200':
           description: A successful response.
-          schema:
-            $ref: '#/definitions/GetConfigurationResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetConfigurationResponse'
         '400':
           description: Request failed due to invalid input.
-          schema:
-            $ref: '#/definitions/ValidationErrorMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorMessageResponse'
         '401':
           description: Not authenticated.
-          schema:
-            $ref: '#/definitions/UnauthenticatedResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthenticatedResponse'
         '403':
           description: Forbidden.
-          schema:
-            $ref: '#/definitions/ForbiddenResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
         '404':
           description: Request failed due to incorrect path.
-          schema:
-            $ref: '#/definitions/PathUnknownErrorMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PathUnknownErrorMessageResponse'
         '409':
           description: Request was aborted due a transaction conflict.
-          schema:
-            $ref: '#/definitions/AbortedMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AbortedMessageResponse'
         '422':
           description: Request timed out due to excessive request throttling.
-          schema:
-            $ref: '#/definitions/UnprocessableContentMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableContentMessageResponse'
         '500':
           description: Request failed due to internal server error.
-          schema:
-            $ref: '#/definitions/InternalErrorMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorMessageResponse'
       parameters:
       - name: store_id
         description: 'The store ID for which to retrieve configuration.
@@ -64,700 +100,1290 @@ paths:
           Following the AuthZEN spec''s multi-tenant pattern, each store has its own discovery endpoint.'
         in: path
         required: true
-        type: string
+        schema:
+          type: string
       tags:
       - AuthZenService
   /stores/{store_id}/access/v1/evaluation:
     post:
       summary: '[Experimental] Evaluate whether a subject can perform an action on a resource'
-      description: "[Experimental] The Evaluation API determines whether a subject is authorized to perform an action on a resource. This endpoint implements the AuthZEN Access Evaluation API specification.\n\n## Request Structure\nThe request requires three components:\n- **subject**: The entity requesting access (e.g., a user or service)\n- **action**: The operation being performed (maps to a relation in the authorization model)\n- **resource**: The object being accessed\n\nEach component has a `type` and `id` field, and may include optional `properties` for ABAC (Attribute-Based Access Control) conditions.\n\n## Response\nThe response contains a `decision` field (boolean) indicating whether access is permitted, and an optional `context` object with additional information such as the evaluation ID or error details.\n\n## ABAC Support\nProperties on subject, action, and resource are automatically merged into the evaluation context with prefixes:\n- Subject properties: `subject_<property_name>`\n- Resource properties: `resource_<property_name>`\n- Action properties: `action_<property_name>`\n\nThese merged properties can be used in conditions defined in your authorization model.\n\n## Examples\n### Basic authorization check\nCheck if user Anne can read a document:\n```json\n{\n  \"subject\": {\"type\": \"user\", \"id\": \"anne\"},\n  \"action\": {\"name\": \"can_read\"},\n  \"resource\": {\"type\": \"document\", \"id\": \"roadmap\"}\n}\n```\nResponse when authorized:\n```json\n{\n  \"decision\": true\n}\n```\n### Using properties for ABAC\nCheck access with subject and resource attributes:\n```json\n{\n  \"subject\": {\n    \"type\": \"user\",\n    \"id\": \"anne\",\n    \"properties\": {\"department\": \"engineering\", \"clearance_level\": 3}\n  },\n  \"action\": {\"name\": \"can_read\"},\n  \"resource\": {\n    \"type\": \"document\",\n    \"id\": \"secret-project\",\n    \"properties\": {\"classification\": \"confidential\", \"required_clearance\": 2}\n  }\n}\n```\n### Using request context\nProvide additional context for time-based or environmental conditions:\n```json\n{\n  \"subject\": {\"type\": \"user\", \"id\": \"bob\"},\n  \"action\": {\"name\": \"can_access\"},\n  \"resource\": {\"type\": \"system\", \"id\": \"production\"},\n  \"context\": {\n    \"current_time\": \"2024-01-15T14:30:00Z\",\n    \"ip_address\": \"192.168.1.100\",\n    \"is_vpn_connected\": true\n  }\n}\n```\n### Specifying authorization model\nPin the evaluation to a specific authorization model version using the `Openfga-Authorization-Model-Id` header:\n```\nPOST /stores/{store_id}/access/v1/evaluation\nOpenfga-Authorization-Model-Id: 01G50QVV17PECNVAHX1GG4Y5NC\n\n{\n  \"subject\": {\"type\": \"user\", \"id\": \"anne\"},\n  \"action\": {\"name\": \"can_write\"},\n  \"resource\": {\"type\": \"document\", \"id\": \"budget-2024\"}\n}\n```\n"
+      description: '[Experimental] The Evaluation API determines whether a subject is authorized to perform an action on a resource. This endpoint implements the AuthZEN Access Evaluation API specification.
+
+
+        ## Request Structure
+
+        The request requires three components:
+
+        - **subject**: The entity requesting access (e.g., a user or service)
+
+        - **action**: The operation being performed (maps to a relation in the authorization model)
+
+        - **resource**: The object being accessed
+
+
+        Each component has a `type` and `id` field, and may include optional `properties` for ABAC (Attribute-Based Access Control) conditions.
+
+
+        ## Response
+
+        The response contains a `decision` field (boolean) indicating whether access is permitted, and an optional `context` object with additional information such as the evaluation ID or error details.
+
+
+        ## ABAC Support
+
+        Properties on subject, action, and resource are automatically merged into the evaluation context with prefixes:
+
+        - Subject properties: `subject_`
+
+        - Resource properties: `resource_`
+
+        - Action properties: `action_`
+
+
+        These merged properties can be used in conditions defined in your authorization model.
+
+
+        ## Examples
+
+        ### Basic authorization check
+
+        Check if user Anne can read a document:
+
+        ```json
+
+        {
+
+        "subject": {"type": "user", "id": "anne"},
+
+        "action": {"name": "can_read"},
+
+        "resource": {"type": "document", "id": "roadmap"}
+
+        }
+
+        ```
+
+        Response when authorized:
+
+        ```json
+
+        {
+
+        "decision": true
+
+        }
+
+        ```
+
+        ### Using properties for ABAC
+
+        Check access with subject and resource attributes:
+
+        ```json
+
+        {
+
+        "subject": {
+
+        "type": "user",
+
+        "id": "anne",
+
+        "properties": {"department": "engineering", "clearance_level": 3}
+
+        },
+
+        "action": {"name": "can_read"},
+
+        "resource": {
+
+        "type": "document",
+
+        "id": "secret-project",
+
+        "properties": {"classification": "confidential", "required_clearance": 2}
+
+        }
+
+        }
+
+        ```
+
+        ### Using request context
+
+        Provide additional context for time-based or environmental conditions:
+
+        ```json
+
+        {
+
+        "subject": {"type": "user", "id": "bob"},
+
+        "action": {"name": "can_access"},
+
+        "resource": {"type": "system", "id": "production"},
+
+        "context": {
+
+        "current_time": "2024-01-15T14:30:00Z",
+
+        "ip_address": "192.168.1.100",
+
+        "is_vpn_connected": true
+
+        }
+
+        }
+
+        ```
+
+        ### Specifying authorization model
+
+        Pin the evaluation to a specific authorization model version using the `Openfga-Authorization-Model-Id` header:
+
+        ```
+
+        POST /stores/{store_id}/access/v1/evaluation
+
+        Openfga-Authorization-Model-Id: 01G50QVV17PECNVAHX1GG4Y5NC
+
+
+        {
+
+        "subject": {"type": "user", "id": "anne"},
+
+        "action": {"name": "can_write"},
+
+        "resource": {"type": "document", "id": "budget-2024"}
+
+        }
+
+        ```'
       operationId: Evaluation
       responses:
         '200':
           description: A successful response.
-          schema:
-            $ref: '#/definitions/EvaluationResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvaluationResponse'
         '400':
           description: Request failed due to invalid input.
-          schema:
-            $ref: '#/definitions/ValidationErrorMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorMessageResponse'
         '401':
           description: Not authenticated.
-          schema:
-            $ref: '#/definitions/UnauthenticatedResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthenticatedResponse'
         '403':
           description: Forbidden.
-          schema:
-            $ref: '#/definitions/ForbiddenResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
         '404':
           description: Request failed due to incorrect path.
-          schema:
-            $ref: '#/definitions/PathUnknownErrorMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PathUnknownErrorMessageResponse'
         '409':
           description: Request was aborted due a transaction conflict.
-          schema:
-            $ref: '#/definitions/AbortedMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AbortedMessageResponse'
         '422':
           description: Request timed out due to excessive request throttling.
-          schema:
-            $ref: '#/definitions/UnprocessableContentMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableContentMessageResponse'
         '500':
           description: Request failed due to internal server error.
-          schema:
-            $ref: '#/definitions/InternalErrorMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorMessageResponse'
       parameters:
       - name: store_id
         in: path
         required: true
-        type: string
-      - name: body
-        in: body
-        required: true
         schema:
-          type: object
-          properties:
-            subject:
-              $ref: '#/definitions/Subject'
-            resource:
-              $ref: '#/definitions/Resource'
-            action:
-              $ref: '#/definitions/Action'
-            context:
-              type: object
-          required:
-          - subject
-          - resource
-          - action
+          type: string
       tags:
       - AuthZenService
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                subject:
+                  $ref: '#/components/schemas/Subject'
+                resource:
+                  $ref: '#/components/schemas/Resource'
+                action:
+                  $ref: '#/components/schemas/Action'
+                context:
+                  type: object
+              required:
+              - subject
+              - resource
+              - action
+        required: true
   /stores/{store_id}/access/v1/evaluations:
     post:
-      summary: '[Experimental] Check whether one or more users are authorized to access resources'
-      description: "[Experimental] The Evaluations API allows batch authorization checks in a single request. It supports request-level defaults for subject, action, resource, and context that can be overridden per evaluation item.\n\n## Evaluation Semantics\nThe `options.evaluations_semantic` field controls how evaluations are processed:\n- `execute_all` (default): Execute all evaluations and return all results\n- `deny_on_first_deny`: Stop processing on first deny decision\n- `permit_on_first_permit`: Stop processing on first permit decision\n\nWhen using `deny_on_first_deny` or `permit_on_first_permit`, the response may include fewer items than the request because processing short-circuits when the condition is met.\n\n## Authorization Model Selection\nTo pin evaluations to a specific authorization model version, send the `Openfga-Authorization-Model-Id` header. If the header is not provided, the latest model is used.\n\n## Examples\n### Basic batch evaluation\nCheck if a user can perform multiple actions on a document:\n```json\n{\n  \"subject\": {\"type\": \"user\", \"id\": \"anne\"},\n  \"resource\": {\"type\": \"document\", \"id\": \"roadmap\"},\n  \"evaluations\": [\n    {\"action\": {\"name\": \"can_read\"}},\n    {\"action\": {\"name\": \"can_write\"}},\n    {\"action\": {\"name\": \"can_delete\"}}\n  ]\n}\n```\n### Using evaluation semantics\nStop on first permitted action (useful for finding any valid permission):\n```json\n{\n  \"subject\": {\"type\": \"user\", \"id\": \"anne\"},\n  \"resource\": {\"type\": \"document\", \"id\": \"roadmap\"},\n  \"evaluations\": [\n    {\"action\": {\"name\": \"can_read\"}},\n    {\"action\": {\"name\": \"can_write\"}}\n  ],\n  \"options\": {\n    \"evaluations_semantic\": \"permit_on_first_permit\"\n  }\n}\n```\n### Overriding defaults per evaluation\nCheck permissions across multiple resources:\n```json\n{\n  \"subject\": {\"type\": \"user\", \"id\": \"anne\"},\n  \"action\": {\"name\": \"can_read\"},\n  \"evaluations\": [\n    {\"resource\": {\"type\": \"document\", \"id\": \"doc1\"}},\n    {\"resource\": {\"type\": \"document\", \"id\": \"doc2\"}},\n    {\"resource\": {\"type\": \"folder\", \"id\": \"folder1\"}}\n  ]\n}\n```\n"
+      summary: '[Experimental] Check whether one or more users are authorized to access…'
+      description: '[Experimental] The Evaluations API allows batch authorization checks in a single request. It supports request-level defaults for subject, action, resource, and context that can be overridden per evaluation item.
+
+
+        ## Evaluation Semantics
+
+        The `options.evaluations_semantic` field controls how evaluations are processed:
+
+        - `execute_all` (default): Execute all evaluations and return all results
+
+        - `deny_on_first_deny`: Stop processing on first deny decision
+
+        - `permit_on_first_permit`: Stop processing on first permit decision
+
+
+        When using `deny_on_first_deny` or `permit_on_first_permit`, the response may include fewer items than the request because processing short-circuits when the condition is met.
+
+
+        ## Authorization Model Selection
+
+        To pin evaluations to a specific authorization model version, send the `Openfga-Authorization-Model-Id` header. If the header is not provided, the latest model is used.
+
+
+        ## Examples
+
+        ### Basic batch evaluation
+
+        Check if a user can perform multiple actions on a document:
+
+        ```json
+
+        {
+
+        "subject": {"type": "user", "id": "anne"},
+
+        "resource": {"type": "document", "id": "roadmap"},
+
+        "evaluations": [
+
+        {"action": {"name": "can_read"}},
+
+        {"action": {"name": "can_write"}},
+
+        {"action": {"name": "can_delete"}}
+
+        ]
+
+        }
+
+        ```
+
+        ### Using evaluation semantics
+
+        Stop on first permitted action (useful for finding any valid permission):
+
+        ```json
+
+        {
+
+        "subject": {"type": "user", "id": "anne"},
+
+        "resource": {"type": "document", "id": "roadmap"},
+
+        "evaluations": [
+
+        {"action": {"name": "can_read"}},
+
+        {"action": {"name": "can_write"}}
+
+        ],
+
+        "options": {
+
+        "evaluations_semantic": "permit_on_first_permit"
+
+        }
+
+        }
+
+        ```
+
+        ### Overriding defaults per evaluation
+
+        Check permissions across multiple resources:
+
+        ```json
+
+        {
+
+        "subject": {"type": "user", "id": "anne"},
+
+        "action": {"name": "can_read"},
+
+        "evaluations": [
+
+        {"resource": {"type": "document", "id": "doc1"}},
+
+        {"resource": {"type": "document", "id": "doc2"}},
+
+        {"resource": {"type": "folder", "id": "folder1"}}
+
+        ]
+
+        }
+
+        ```'
       operationId: Evaluations
       responses:
         '200':
           description: A successful response.
-          schema:
-            $ref: '#/definitions/EvaluationsResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvaluationsResponse'
         '400':
           description: Request failed due to invalid input.
-          schema:
-            $ref: '#/definitions/ValidationErrorMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorMessageResponse'
         '401':
           description: Not authenticated.
-          schema:
-            $ref: '#/definitions/UnauthenticatedResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthenticatedResponse'
         '403':
           description: Forbidden.
-          schema:
-            $ref: '#/definitions/ForbiddenResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
         '404':
           description: Request failed due to incorrect path.
-          schema:
-            $ref: '#/definitions/PathUnknownErrorMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PathUnknownErrorMessageResponse'
         '409':
           description: Request was aborted due a transaction conflict.
-          schema:
-            $ref: '#/definitions/AbortedMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AbortedMessageResponse'
         '422':
           description: Request timed out due to excessive request throttling.
-          schema:
-            $ref: '#/definitions/UnprocessableContentMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableContentMessageResponse'
         '500':
           description: Request failed due to internal server error.
-          schema:
-            $ref: '#/definitions/InternalErrorMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorMessageResponse'
       parameters:
       - name: store_id
         in: path
         required: true
-        type: string
-      - name: body
-        in: body
-        required: true
         schema:
-          type: object
-          properties:
-            subject:
-              $ref: '#/definitions/Subject'
-            action:
-              $ref: '#/definitions/Action'
-            resource:
-              $ref: '#/definitions/Resource'
-            context:
-              type: object
-            evaluations:
-              type: array
-              items:
-                type: object
-                $ref: '#/definitions/EvaluationsItemRequest'
-              description: Optional. If omitted or empty, behaves like a single Access Evaluation request.
-            options:
-              $ref: '#/definitions/EvaluationsOptions'
-              title: Options for batch evaluation semantics
+          type: string
       tags:
       - AuthZenService
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                subject:
+                  $ref: '#/components/schemas/Subject'
+                action:
+                  $ref: '#/components/schemas/Action'
+                resource:
+                  $ref: '#/components/schemas/Resource'
+                context:
+                  type: object
+                evaluations:
+                  type: array
+                  items:
+                    type: object
+                    $ref: '#/components/schemas/EvaluationsItemRequest'
+                  description: Optional. If omitted or empty, behaves like a single Access Evaluation request.
+                options:
+                  $ref: '#/components/schemas/EvaluationsOptions'
+                  title: Options for batch evaluation semantics
+        required: true
   /stores/{store_id}/access/v1/search/action:
     post:
       summary: '[Experimental] Search for actions a subject can perform on a resource'
-      description: "[Experimental] The ActionSearch API returns all actions (relations) that a subject can perform on a specific resource. This is useful for answering questions like \"What can Anne do with this document?\" or building dynamic UIs that show only the actions a user is permitted to perform.\n\n## Examples\n### Find all actions a user can perform on a document\n```json\n{\n  \"subject\": {\"type\": \"user\", \"id\": \"anne\"},\n  \"resource\": {\"type\": \"document\", \"id\": \"roadmap\"}\n}\n```\nResponse:\n```json\n{\n  \"results\": [\n    {\"name\": \"can_read\"},\n    {\"name\": \"can_write\"},\n    {\"name\": \"can_share\"}\n  ],\n  \"page\": {\"count\": 3}\n}\n```\n### Search with ABAC context for time-based permissions\n```json\n{\n  \"subject\": {\"type\": \"user\", \"id\": \"bob\"},\n  \"resource\": {\"type\": \"report\", \"id\": \"quarterly-financials\"},\n  \"context\": {\n    \"current_time\": \"2024-01-15T14:30:00Z\",\n    \"user_department\": \"finance\"\n  }\n}\n```\n### Paginated action search\n```json\n{\n  \"subject\": {\"type\": \"user\", \"id\": \"admin\"},\n  \"resource\": {\"type\": \"system\", \"id\": \"production\"},\n  \"page\": {\"limit\": 50}\n}\n```\n"
+      description: '[Experimental] The ActionSearch API returns all actions (relations) that a subject can perform on a specific resource. This is useful for answering questions like "What can Anne do with this document?" or building dynamic UIs that show only the actions a user is permitted to perform.
+
+
+        ## Examples
+
+        ### Find all actions a user can perform on a document
+
+        ```json
+
+        {
+
+        "subject": {"type": "user", "id": "anne"},
+
+        "resource": {"type": "document", "id": "roadmap"}
+
+        }
+
+        ```
+
+        Response:
+
+        ```json
+
+        {
+
+        "results": [
+
+        {"name": "can_read"},
+
+        {"name": "can_write"},
+
+        {"name": "can_share"}
+
+        ],
+
+        "page": {"count": 3}
+
+        }
+
+        ```
+
+        ### Search with ABAC context for time-based permissions
+
+        ```json
+
+        {
+
+        "subject": {"type": "user", "id": "bob"},
+
+        "resource": {"type": "report", "id": "quarterly-financials"},
+
+        "context": {
+
+        "current_time": "2024-01-15T14:30:00Z",
+
+        "user_department": "finance"
+
+        }
+
+        }
+
+        ```
+
+        ### Paginated action search
+
+        ```json
+
+        {
+
+        "subject": {"type": "user", "id": "admin"},
+
+        "resource": {"type": "system", "id": "production"},
+
+        "page": {"limit": 50}
+
+        }
+
+        ```'
       operationId: ActionSearch
       responses:
         '200':
           description: A successful response.
-          schema:
-            $ref: '#/definitions/ActionSearchResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionSearchResponse'
         '400':
           description: Request failed due to invalid input.
-          schema:
-            $ref: '#/definitions/ValidationErrorMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorMessageResponse'
         '401':
           description: Not authenticated.
-          schema:
-            $ref: '#/definitions/UnauthenticatedResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthenticatedResponse'
         '403':
           description: Forbidden.
-          schema:
-            $ref: '#/definitions/ForbiddenResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
         '404':
           description: Request failed due to incorrect path.
-          schema:
-            $ref: '#/definitions/PathUnknownErrorMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PathUnknownErrorMessageResponse'
         '409':
           description: Request was aborted due a transaction conflict.
-          schema:
-            $ref: '#/definitions/AbortedMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AbortedMessageResponse'
         '422':
           description: Request timed out due to excessive request throttling.
-          schema:
-            $ref: '#/definitions/UnprocessableContentMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableContentMessageResponse'
         '500':
           description: Request failed due to internal server error.
-          schema:
-            $ref: '#/definitions/InternalErrorMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorMessageResponse'
       parameters:
       - name: store_id
         in: path
         required: true
-        type: string
-      - name: body
-        in: body
-        required: true
         schema:
-          type: object
-          properties:
-            subject:
-              $ref: '#/definitions/Subject'
-            resource:
-              $ref: '#/definitions/Resource'
-            context:
-              type: object
-            page:
-              $ref: '#/definitions/PageRequest'
-          title: ActionSearch request
-          required:
-          - subject
-          - resource
+          type: string
       tags:
       - AuthZenService
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                subject:
+                  $ref: '#/components/schemas/Subject'
+                resource:
+                  $ref: '#/components/schemas/Resource'
+                context:
+                  type: object
+                page:
+                  $ref: '#/components/schemas/PageRequest'
+              title: ActionSearch request
+              required:
+              - subject
+              - resource
+        required: true
   /stores/{store_id}/access/v1/search/resource:
     post:
       summary: '[Experimental] Search for resources a subject has access to'
-      description: "[Experimental] The ResourceSearch API returns all resources of a given type that a subject has a specific action (relation) on. This is useful for answering questions like \"What documents can Anne read?\" or \"What folders can Bob administer?\"\n\nThe resource type filter is required. Results support pagination for large result sets.\n\n## Examples\n### Find all documents a user can read\n```json\n{\n  \"subject\": {\"type\": \"user\", \"id\": \"anne\"},\n  \"action\": {\"name\": \"can_read\"},\n  \"resource\": {\"type\": \"document\"}\n}\n```\nResponse:\n```json\n{\n  \"results\": [\n    {\"type\": \"document\", \"id\": \"roadmap\"},\n    {\"type\": \"document\", \"id\": \"budget-2024\"},\n    {\"type\": \"document\", \"id\": \"team-roster\"}\n  ],\n  \"page\": {\"count\": 3}\n}\n```\n### Find folders a user can administer with pagination\n```json\n{\n  \"subject\": {\"type\": \"user\", \"id\": \"bob\"},\n  \"action\": {\"name\": \"can_admin\"},\n  \"resource\": {\"type\": \"folder\"},\n  \"page\": {\"limit\": 25}\n}\n```\n### Search with ABAC context\n```json\n{\n  \"subject\": {\"type\": \"user\", \"id\": \"anne\"},\n  \"action\": {\"name\": \"can_read\"},\n  \"resource\": {\"type\": \"document\"},\n  \"context\": {\n    \"current_time\": \"2024-01-15T10:00:00Z\",\n    \"ip_address\": \"192.168.1.100\"\n  }\n}\n```\n"
+      description: '[Experimental] The ResourceSearch API returns all resources of a given type that a subject has a specific action (relation) on. This is useful for answering questions like "What documents can Anne read?" or "What folders can Bob administer?"
+
+
+        The resource type filter is required. Results support pagination for large result sets.
+
+
+        ## Examples
+
+        ### Find all documents a user can read
+
+        ```json
+
+        {
+
+        "subject": {"type": "user", "id": "anne"},
+
+        "action": {"name": "can_read"},
+
+        "resource": {"type": "document"}
+
+        }
+
+        ```
+
+        Response:
+
+        ```json
+
+        {
+
+        "results": [
+
+        {"type": "document", "id": "roadmap"},
+
+        {"type": "document", "id": "budget-2024"},
+
+        {"type": "document", "id": "team-roster"}
+
+        ],
+
+        "page": {"count": 3}
+
+        }
+
+        ```
+
+        ### Find folders a user can administer with pagination
+
+        ```json
+
+        {
+
+        "subject": {"type": "user", "id": "bob"},
+
+        "action": {"name": "can_admin"},
+
+        "resource": {"type": "folder"},
+
+        "page": {"limit": 25}
+
+        }
+
+        ```
+
+        ### Search with ABAC context
+
+        ```json
+
+        {
+
+        "subject": {"type": "user", "id": "anne"},
+
+        "action": {"name": "can_read"},
+
+        "resource": {"type": "document"},
+
+        "context": {
+
+        "current_time": "2024-01-15T10:00:00Z",
+
+        "ip_address": "192.168.1.100"
+
+        }
+
+        }
+
+        ```'
       operationId: ResourceSearch
       responses:
         '200':
           description: A successful response.
-          schema:
-            $ref: '#/definitions/ResourceSearchResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceSearchResponse'
         '400':
           description: Request failed due to invalid input.
-          schema:
-            $ref: '#/definitions/ValidationErrorMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorMessageResponse'
         '401':
           description: Not authenticated.
-          schema:
-            $ref: '#/definitions/UnauthenticatedResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthenticatedResponse'
         '403':
           description: Forbidden.
-          schema:
-            $ref: '#/definitions/ForbiddenResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
         '404':
           description: Request failed due to incorrect path.
-          schema:
-            $ref: '#/definitions/PathUnknownErrorMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PathUnknownErrorMessageResponse'
         '409':
           description: Request was aborted due a transaction conflict.
-          schema:
-            $ref: '#/definitions/AbortedMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AbortedMessageResponse'
         '422':
           description: Request timed out due to excessive request throttling.
-          schema:
-            $ref: '#/definitions/UnprocessableContentMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableContentMessageResponse'
         '500':
           description: Request failed due to internal server error.
-          schema:
-            $ref: '#/definitions/InternalErrorMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorMessageResponse'
       parameters:
       - name: store_id
         in: path
         required: true
-        type: string
-      - name: body
-        in: body
-        required: true
         schema:
-          type: object
-          properties:
-            subject:
-              $ref: '#/definitions/Subject'
-            action:
-              $ref: '#/definitions/Action'
-            resource:
-              $ref: '#/definitions/ResourceFilter'
-              title: Filter by resource type
-            context:
-              type: object
-            page:
-              $ref: '#/definitions/PageRequest'
-          title: ResourceSearch request
-          required:
-          - subject
-          - action
-          - resource
+          type: string
       tags:
       - AuthZenService
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                subject:
+                  $ref: '#/components/schemas/Subject'
+                action:
+                  $ref: '#/components/schemas/Action'
+                resource:
+                  $ref: '#/components/schemas/ResourceFilter'
+                  title: Filter by resource type
+                context:
+                  type: object
+                page:
+                  $ref: '#/components/schemas/PageRequest'
+              title: ResourceSearch request
+              required:
+              - subject
+              - action
+              - resource
+        required: true
   /stores/{store_id}/access/v1/search/subject:
     post:
       summary: '[Experimental] Search for subjects with access to a resource'
-      description: "[Experimental] The SubjectSearch API returns all subjects that have a specific action (relation) on a given resource. This is useful for answering questions like \"Who can read this document?\" or \"Who can administer this folder?\"\n\nResults can be filtered by subject type and support pagination for large result sets.\n\n## Examples\n### Find all users who can read a document\n```json\n{\n  \"resource\": {\"type\": \"document\", \"id\": \"roadmap\"},\n  \"action\": {\"name\": \"can_read\"},\n  \"subject\": {\"type\": \"user\"}\n}\n```\nResponse:\n```json\n{\n  \"results\": [\n    {\"type\": \"user\", \"id\": \"anne\"},\n    {\"type\": \"user\", \"id\": \"bob\"},\n    {\"type\": \"user\", \"id\": \"charlie\"}\n  ],\n  \"page\": {\"count\": 3}\n}\n```\n### Paginated search with limit\n```json\n{\n  \"resource\": {\"type\": \"folder\", \"id\": \"engineering\"},\n  \"action\": {\"name\": \"can_view\"},\n  \"subject\": {\"type\": \"user\"},\n  \"page\": {\"limit\": 10}\n}\n```\n### Continue from previous page\n```json\n{\n  \"resource\": {\"type\": \"folder\", \"id\": \"engineering\"},\n  \"action\": {\"name\": \"can_view\"},\n  \"subject\": {\"type\": \"user\"},\n  \"page\": {\"token\": \"eyJsYXN0X2lkIjoiMTAwIn0=\", \"limit\": 10}\n}\n```\n"
+      description: '[Experimental] The SubjectSearch API returns all subjects that have a specific action (relation) on a given resource. This is useful for answering questions like "Who can read this document?" or "Who can administer this folder?"
+
+
+        Results can be filtered by subject type and support pagination for large result sets.
+
+
+        ## Examples
+
+        ### Find all users who can read a document
+
+        ```json
+
+        {
+
+        "resource": {"type": "document", "id": "roadmap"},
+
+        "action": {"name": "can_read"},
+
+        "subject": {"type": "user"}
+
+        }
+
+        ```
+
+        Response:
+
+        ```json
+
+        {
+
+        "results": [
+
+        {"type": "user", "id": "anne"},
+
+        {"type": "user", "id": "bob"},
+
+        {"type": "user", "id": "charlie"}
+
+        ],
+
+        "page": {"count": 3}
+
+        }
+
+        ```
+
+        ### Paginated search with limit
+
+        ```json
+
+        {
+
+        "resource": {"type": "folder", "id": "engineering"},
+
+        "action": {"name": "can_view"},
+
+        "subject": {"type": "user"},
+
+        "page": {"limit": 10}
+
+        }
+
+        ```
+
+        ### Continue from previous page
+
+        ```json
+
+        {
+
+        "resource": {"type": "folder", "id": "engineering"},
+
+        "action": {"name": "can_view"},
+
+        "subject": {"type": "user"},
+
+        "page": {"token": "eyJsYXN0X2lkIjoiMTAwIn0=", "limit": 10}
+
+        }
+
+        ```'
       operationId: SubjectSearch
       responses:
         '200':
           description: A successful response.
-          schema:
-            $ref: '#/definitions/SubjectSearchResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubjectSearchResponse'
         '400':
           description: Request failed due to invalid input.
-          schema:
-            $ref: '#/definitions/ValidationErrorMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorMessageResponse'
         '401':
           description: Not authenticated.
-          schema:
-            $ref: '#/definitions/UnauthenticatedResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthenticatedResponse'
         '403':
           description: Forbidden.
-          schema:
-            $ref: '#/definitions/ForbiddenResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
         '404':
           description: Request failed due to incorrect path.
-          schema:
-            $ref: '#/definitions/PathUnknownErrorMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PathUnknownErrorMessageResponse'
         '409':
           description: Request was aborted due a transaction conflict.
-          schema:
-            $ref: '#/definitions/AbortedMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AbortedMessageResponse'
         '422':
           description: Request timed out due to excessive request throttling.
-          schema:
-            $ref: '#/definitions/UnprocessableContentMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableContentMessageResponse'
         '500':
           description: Request failed due to internal server error.
-          schema:
-            $ref: '#/definitions/InternalErrorMessageResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorMessageResponse'
       parameters:
       - name: store_id
         in: path
         required: true
-        type: string
-      - name: body
-        in: body
-        required: true
         schema:
-          type: object
-          properties:
-            resource:
-              $ref: '#/definitions/Resource'
-            action:
-              $ref: '#/definitions/Action'
-            subject:
-              $ref: '#/definitions/SubjectFilter'
-              description: REQUIRED by AuthZEN Subject Search. Subject `id` may be provided but is ignored.
-            context:
-              type: object
-            page:
-              $ref: '#/definitions/PageRequest'
-          title: SubjectSearch request
-          required:
-          - resource
-          - action
-          - subject
+          type: string
       tags:
       - AuthZenService
-definitions:
-  Subject:
-    type: object
-    properties:
-      type:
-        type: string
-        example: user
-      id:
-        type: string
-        example: anne
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                resource:
+                  $ref: '#/components/schemas/Resource'
+                action:
+                  $ref: '#/components/schemas/Action'
+                subject:
+                  $ref: '#/components/schemas/SubjectFilter'
+                  description: REQUIRED by AuthZEN Subject Search. Subject `id` may be provided but is ignored.
+                context:
+                  type: object
+                page:
+                  $ref: '#/components/schemas/PageRequest'
+              title: SubjectSearch request
+              required:
+              - resource
+              - action
+              - subject
+        required: true
+components:
+  schemas:
+    EvaluationsSemantic:
+      type: string
+      enum:
+      - execute_all
+      - deny_on_first_deny
+      - permit_on_first_permit
+      default: execute_all
+      description: "- execute_all: Execute all evaluations (default behavior)\n - deny_on_first_deny: Stop on first deny decision\n - permit_on_first_permit: Stop on first permit decision"
+      title: Enum for evaluation semantics
+    Resource:
+      type: object
       properties:
-        type: object
-    required:
-    - type
-    - id
-  NotFoundErrorCode:
-    type: string
-    enum:
-    - no_not_found_error
-    - undefined_endpoint
-    - store_id_not_found
-    - unimplemented
-    default: no_not_found_error
-  ErrorCode:
-    type: string
-    enum:
-    - no_error
-    - validation_error
-    - authorization_model_not_found
-    - authorization_model_resolution_too_complex
-    - invalid_write_input
-    - cannot_allow_duplicate_tuples_in_one_request
-    - cannot_allow_duplicate_types_in_one_request
-    - cannot_allow_multiple_references_to_one_relation
-    - invalid_continuation_token
-    - invalid_tuple_set
-    - invalid_check_input
-    - invalid_expand_input
-    - unsupported_user_set
-    - invalid_object_format
-    - write_failed_due_to_invalid_input
-    - authorization_model_assertions_not_found
-    - latest_authorization_model_not_found
-    - type_not_found
-    - relation_not_found
-    - empty_relation_definition
-    - invalid_user
-    - invalid_tuple
-    - unknown_relation
-    - store_id_invalid_length
-    - assertions_too_many_items
-    - id_too_long
-    - authorization_model_id_too_long
-    - tuple_key_value_not_specified
-    - tuple_keys_too_many_or_too_few_items
-    - page_size_invalid
-    - param_missing_value
-    - difference_base_missing_value
-    - subtract_base_missing_value
-    - object_too_long
-    - relation_too_long
-    - type_definitions_too_few_items
-    - type_invalid_length
-    - type_invalid_pattern
-    - relations_too_few_items
-    - relations_too_long
-    - relations_invalid_pattern
-    - object_invalid_pattern
-    - query_string_type_continuation_token_mismatch
-    - exceeded_entity_limit
-    - invalid_contextual_tuple
-    - duplicate_contextual_tuple
-    - invalid_authorization_model
-    - unsupported_schema_version
-    - cancelled
-    - invalid_start_time
-    default: no_error
-  AbortedMessageResponse:
-    type: object
-    example:
-      code: '10'
-      message: transaction conflict
-    properties:
-      code:
-        type: string
-      message:
-        type: string
-  ResourceSearchResponse:
-    type: object
-    properties:
-      results:
-        type: array
-        items:
-          type: object
-          $ref: '#/definitions/Resource'
-      page:
-        $ref: '#/definitions/PageResponse'
-        title: Optional per AuthZEN spec - omit if pagination not supported
-  AuthErrorCode:
-    type: string
-    enum:
-    - no_auth_error
-    - auth_failed_invalid_subject
-    - auth_failed_invalid_audience
-    - auth_failed_invalid_issuer
-    - invalid_claims
-    - auth_failed_invalid_bearer_token
-    - bearer_token_missing
-    - unauthenticated
-    - forbidden
-    default: no_auth_error
-  GetConfigurationResponse:
-    type: object
-    properties:
-      policy_decision_point:
-        type: string
-        description: REQUIRED. The PDP identifier URL (HTTPS, no query or fragment).
-      access_evaluation_endpoint:
-        type: string
-        description: REQUIRED. The access evaluation endpoint URL.
-      access_evaluations_endpoint:
-        type: string
-        description: OPTIONAL. The batch evaluations endpoint URL.
-      search_subject_endpoint:
-        type: string
-        description: OPTIONAL. The subject search endpoint URL.
-      search_resource_endpoint:
-        type: string
-        description: OPTIONAL. The resource search endpoint URL.
-      search_action_endpoint:
-        type: string
-        description: OPTIONAL. The action search endpoint URL.
-      capabilities:
-        type: array
-        items:
+        type:
           type: string
-        description: OPTIONAL. Supported capabilities as URN strings.
-      signed_metadata:
-        type: string
-        description: OPTIONAL. Signed metadata JWT per AuthZEN metadata specification.
-    title: GetConfiguration response - PDP metadata per AuthZEN spec
-    required:
-    - policy_decision_point
-    - access_evaluation_endpoint
-  EvaluationsItemRequest:
-    type: object
-    properties:
-      subject:
-        $ref: '#/definitions/Subject'
-      resource:
-        $ref: '#/definitions/Resource'
-      action:
-        $ref: '#/definitions/Action'
-      context:
-        type: object
-  EvaluationsSemantic:
-    type: string
-    enum:
-    - execute_all
-    - deny_on_first_deny
-    - permit_on_first_permit
-    default: execute_all
-    description: "- execute_all: Execute all evaluations (default behavior)\n - deny_on_first_deny: Stop on first deny decision\n - permit_on_first_permit: Stop on first permit decision"
-    title: Enum for evaluation semantics
-  EvaluationsResponse:
-    type: object
-    properties:
-      evaluations:
-        type: array
-        items:
+          example: document
+        id:
+          type: string
+          example: roadmap
+        properties:
           type: object
-          $ref: '#/definitions/EvaluationResponse'
-  UnprocessableContentErrorCode:
-    type: string
-    enum:
-    - no_throttled_error_code
-    - throttled_timeout_error
-    default: no_throttled_error_code
-  SubjectFilter:
-    type: object
-    properties:
-      type:
-        type: string
-        example: user
-      id:
-        type: string
-        description: Optional subject id. If present in Subject Search, it is ignored per AuthZEN spec.
+      required:
+      - type
+      - id
+    ForbiddenResponse:
+      type: object
+      example:
+        code: forbidden
+        message: the principal is not authorized to perform the action
       properties:
-        type: object
-    title: SubjectFilter is used for search operations where only type is required
-    required:
-    - type
-  Action:
-    type: object
-    properties:
-      name:
-        type: string
-        example: can_read
+        code:
+          $ref: '#/components/schemas/AuthErrorCode'
+        message:
+          type: string
+    ValidationErrorMessageResponse:
+      type: object
+      example:
+        code: validation_error
+        message: Generic validation error
       properties:
-        type: object
-    required:
-    - name
-  InternalErrorMessageResponse:
-    type: object
-    example:
-      code: internal_error
-      message: Internal Server Error
-    properties:
-      code:
-        $ref: '#/definitions/InternalErrorCode'
-      message:
-        type: string
-  PageResponse:
-    type: object
-    properties:
-      next_token:
-        type: string
-        title: Token to retrieve next page (empty if no more results)
-      count:
-        type: integer
-        format: int64
-        title: Number of results in this page
-      total:
-        type: integer
-        format: int64
-        title: Total number of results (if known, otherwise 0)
-    title: Pagination response parameters
-  SubjectSearchResponse:
-    type: object
-    properties:
-      results:
-        type: array
-        items:
+        code:
+          $ref: '#/components/schemas/ErrorCode'
+        message:
+          type: string
+    AbortedMessageResponse:
+      type: object
+      example:
+        code: '10'
+        message: transaction conflict
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    UnauthenticatedResponse:
+      type: object
+      example:
+        code: unauthenticated
+        message: unauthenticated
+      properties:
+        code:
+          $ref: '#/components/schemas/ErrorCode'
+        message:
+          type: string
+    Action:
+      type: object
+      properties:
+        name:
+          type: string
+          example: can_read
+        properties:
           type: object
-          $ref: '#/definitions/Subject'
-      page:
-        $ref: '#/definitions/PageResponse'
-        title: Optional per AuthZEN spec - omit if pagination not supported
-  PageRequest:
-    type: object
-    properties:
-      token:
-        type: string
-        title: Continuation token from previous response
-      limit:
-        type: integer
-        format: int64
-        title: 'Maximum number of results to return (default: 50, max: 1000)'
-    title: Pagination request parameters for search operations
-  EvaluationResponse:
-    type: object
-    properties:
-      decision:
-        type: boolean
-      context:
-        type: object
-  ResourceFilter:
-    type: object
-    properties:
-      type:
-        type: string
-        example: document
-      id:
-        type: string
-        description: Optional resource id. If present in Resource Search, it is ignored per AuthZEN spec.
+      required:
+      - name
+    PathUnknownErrorMessageResponse:
+      type: object
+      example:
+        code: undefined_endpoint
+        message: Endpoint not enabled
       properties:
-        type: object
-    title: ResourceFilter is used for search operations where only type is required
-    required:
-    - type
-  ForbiddenResponse:
-    type: object
-    example:
-      code: forbidden
-      message: the principal is not authorized to perform the action
-    properties:
-      code:
-        $ref: '#/definitions/AuthErrorCode'
-      message:
-        type: string
-  Resource:
-    type: object
-    properties:
-      type:
-        type: string
-        example: document
-      id:
-        type: string
-        example: roadmap
+        code:
+          $ref: '#/components/schemas/NotFoundErrorCode'
+        message:
+          type: string
+    AuthErrorCode:
+      type: string
+      enum:
+      - no_auth_error
+      - auth_failed_invalid_subject
+      - auth_failed_invalid_audience
+      - auth_failed_invalid_issuer
+      - invalid_claims
+      - auth_failed_invalid_bearer_token
+      - bearer_token_missing
+      - unauthenticated
+      - forbidden
+      default: no_auth_error
+    InternalErrorMessageResponse:
+      type: object
+      example:
+        code: internal_error
+        message: Internal Server Error
       properties:
-        type: object
-    required:
-    - type
-    - id
-  EvaluationsOptions:
-    type: object
-    properties:
-      evaluations_semantic:
-        $ref: '#/definitions/EvaluationsSemantic'
-        title: Controls how batch evaluations are processed
-    title: Options for batch evaluations
-  ActionSearchResponse:
-    type: object
-    properties:
-      results:
-        type: array
-        items:
+        code:
+          $ref: '#/components/schemas/InternalErrorCode'
+        message:
+          type: string
+    EvaluationResponse:
+      type: object
+      properties:
+        decision:
+          type: boolean
+        context:
           type: object
-          $ref: '#/definitions/Action'
-      page:
-        $ref: '#/definitions/PageResponse'
-        title: Optional per AuthZEN spec - omit if pagination not supported
-  UnprocessableContentMessageResponse:
-    type: object
-    example:
-      code: throttled_timeout_error
-      message: timeout due to throttling on complex request
-    properties:
-      code:
-        $ref: '#/definitions/UnprocessableContentErrorCode'
-      message:
-        type: string
-  UnauthenticatedResponse:
-    type: object
-    example:
-      code: unauthenticated
-      message: unauthenticated
-    properties:
-      code:
-        $ref: '#/definitions/ErrorCode'
-      message:
-        type: string
-  ValidationErrorMessageResponse:
-    type: object
-    example:
-      code: validation_error
-      message: Generic validation error
-    properties:
-      code:
-        $ref: '#/definitions/ErrorCode'
-      message:
-        type: string
-  InternalErrorCode:
-    type: string
-    enum:
-    - no_internal_error
-    - internal_error
-    - deadline_exceeded
-    - already_exists
-    - resource_exhausted
-    - failed_precondition
-    - aborted
-    - out_of_range
-    - unavailable
-    - data_loss
-    default: no_internal_error
-  PathUnknownErrorMessageResponse:
-    type: object
-    example:
-      code: undefined_endpoint
-      message: Endpoint not enabled
-    properties:
-      code:
-        $ref: '#/definitions/NotFoundErrorCode'
-      message:
-        type: string
+    NotFoundErrorCode:
+      type: string
+      enum:
+      - no_not_found_error
+      - undefined_endpoint
+      - store_id_not_found
+      - unimplemented
+      default: no_not_found_error
+    UnprocessableContentErrorCode:
+      type: string
+      enum:
+      - no_throttled_error_code
+      - throttled_timeout_error
+      default: no_throttled_error_code
+    UnprocessableContentMessageResponse:
+      type: object
+      example:
+        code: throttled_timeout_error
+        message: timeout due to throttling on complex request
+      properties:
+        code:
+          $ref: '#/components/schemas/UnprocessableContentErrorCode'
+        message:
+          type: string
+    ResourceSearchResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/Resource'
+        page:
+          $ref: '#/components/schemas/PageResponse'
+          title: Optional per AuthZEN spec - omit if pagination not supported
+    ActionSearchResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/Action'
+        page:
+          $ref: '#/components/schemas/PageResponse'
+          title: Optional per AuthZEN spec - omit if pagination not supported
+    EvaluationsOptions:
+      type: object
+      properties:
+        evaluations_semantic:
+          $ref: '#/components/schemas/EvaluationsSemantic'
+          title: Controls how batch evaluations are processed
+      title: Options for batch evaluations
+    SubjectSearchResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/Subject'
+        page:
+          $ref: '#/components/schemas/PageResponse'
+          title: Optional per AuthZEN spec - omit if pagination not supported
+    Subject:
+      type: object
+      properties:
+        type:
+          type: string
+          example: user
+        id:
+          type: string
+          example: anne
+        properties:
+          type: object
+      required:
+      - type
+      - id
+    InternalErrorCode:
+      type: string
+      enum:
+      - no_internal_error
+      - internal_error
+      - deadline_exceeded
+      - already_exists
+      - resource_exhausted
+      - failed_precondition
+      - aborted
+      - out_of_range
+      - unavailable
+      - data_loss
+      default: no_internal_error
+    ErrorCode:
+      type: string
+      enum:
+      - no_error
+      - validation_error
+      - authorization_model_not_found
+      - authorization_model_resolution_too_complex
+      - invalid_write_input
+      - cannot_allow_duplicate_tuples_in_one_request
+      - cannot_allow_duplicate_types_in_one_request
+      - cannot_allow_multiple_references_to_one_relation
+      - invalid_continuation_token
+      - invalid_tuple_set
+      - invalid_check_input
+      - invalid_expand_input
+      - unsupported_user_set
+      - invalid_object_format
+      - write_failed_due_to_invalid_input
+      - authorization_model_assertions_not_found
+      - latest_authorization_model_not_found
+      - type_not_found
+      - relation_not_found
+      - empty_relation_definition
+      - invalid_user
+      - invalid_tuple
+      - unknown_relation
+      - store_id_invalid_length
+      - assertions_too_many_items
+      - id_too_long
+      - authorization_model_id_too_long
+      - tuple_key_value_not_specified
+      - tuple_keys_too_many_or_too_few_items
+      - page_size_invalid
+      - param_missing_value
+      - difference_base_missing_value
+      - subtract_base_missing_value
+      - object_too_long
+      - relation_too_long
+      - type_definitions_too_few_items
+      - type_invalid_length
+      - type_invalid_pattern
+      - relations_too_few_items
+      - relations_too_long
+      - relations_invalid_pattern
+      - object_invalid_pattern
+      - query_string_type_continuation_token_mismatch
+      - exceeded_entity_limit
+      - invalid_contextual_tuple
+      - duplicate_contextual_tuple
+      - invalid_authorization_model
+      - unsupported_schema_version
+      - cancelled
+      - invalid_start_time
+      default: no_error
+    ResourceFilter:
+      type: object
+      properties:
+        type:
+          type: string
+          example: document
+        id:
+          type: string
+          description: Optional resource id. If present in Resource Search, it is ignored per AuthZEN spec.
+        properties:
+          type: object
+      title: ResourceFilter is used for search operations where only type is required
+      required:
+      - type
+    SubjectFilter:
+      type: object
+      properties:
+        type:
+          type: string
+          example: user
+        id:
+          type: string
+          description: Optional subject id. If present in Subject Search, it is ignored per AuthZEN spec.
+        properties:
+          type: object
+      title: SubjectFilter is used for search operations where only type is required
+      required:
+      - type
+    EvaluationsResponse:
+      type: object
+      properties:
+        evaluations:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/EvaluationResponse'
+    PageResponse:
+      type: object
+      properties:
+        next_token:
+          type: string
+          title: Token to retrieve next page (empty if no more results)
+        count:
+          type: integer
+          format: int64
+          title: Number of results in this page
+        total:
+          type: integer
+          format: int64
+          title: Total number of results (if known, otherwise 0)
+      title: Pagination response parameters
+    GetConfigurationResponse:
+      type: object
+      properties:
+        policy_decision_point:
+          type: string
+          description: REQUIRED. The PDP identifier URL (HTTPS, no query or fragment).
+        access_evaluation_endpoint:
+          type: string
+          description: REQUIRED. The access evaluation endpoint URL.
+        access_evaluations_endpoint:
+          type: string
+          description: OPTIONAL. The batch evaluations endpoint URL.
+        search_subject_endpoint:
+          type: string
+          description: OPTIONAL. The subject search endpoint URL.
+        search_resource_endpoint:
+          type: string
+          description: OPTIONAL. The resource search endpoint URL.
+        search_action_endpoint:
+          type: string
+          description: OPTIONAL. The action search endpoint URL.
+        capabilities:
+          type: array
+          items:
+            type: string
+          description: OPTIONAL. Supported capabilities as URN strings.
+        signed_metadata:
+          type: string
+          description: OPTIONAL. Signed metadata JWT per AuthZEN metadata specification.
+      title: GetConfiguration response - PDP metadata per AuthZEN spec
+      required:
+      - policy_decision_point
+      - access_evaluation_endpoint
+    EvaluationsItemRequest:
+      type: object
+      properties:
+        subject:
+          $ref: '#/components/schemas/Subject'
+        resource:
+          $ref: '#/components/schemas/Resource'
+        action:
+          $ref: '#/components/schemas/Action'
+        context:
+          type: object
+    PageRequest:
+      type: object
+      properties:
+        token:
+          type: string
+          title: Continuation token from previous response
+        limit:
+          type: integer
+          format: int64
+          title: 'Maximum number of results to return (default: 50, max: 1000)'
+      title: Pagination request parameters for search operations

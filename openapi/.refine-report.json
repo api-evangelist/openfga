@@ -1,17 +1,12 @@
 {
   "provider": "openfga",
   "sources": [
-    "openfga-assertions-api-openapi.yml",
-    "openfga-authorization-models-api-openapi.yml",
-    "openfga-authzenservice-api-openapi.yml",
-    "openfga-relationship-queries-api-openapi.yml",
-    "openfga-relationship-tuples-api-openapi.yml",
-    "openfga-stores-api-openapi.yml"
+    "_original/openfga-openapi.json"
   ],
   "outputs": [
     "openfga-assertions-api-openapi.yml",
-    "openfga-authorization-models-api-openapi.yml",
     "openfga-authzenservice-api-openapi.yml",
+    "openfga-authorization-models-api-openapi.yml",
     "openfga-relationship-queries-api-openapi.yml",
     "openfga-relationship-tuples-api-openapi.yml",
     "openfga-stores-api-openapi.yml"
@@ -19,6 +14,22 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "openfga-openapi.json: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "openfga-openapi.json: declared missing tag: Assertions",
+    "openfga-openapi.json: declared missing tag: Authorization Models",
+    "openfga-openapi.json: declared missing tag: Relationship Queries",
+    "openfga-openapi.json: declared missing tag: Relationship Tuples",
+    "openfga-openapi.json: declared missing tag: Stores",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "openfga-assertions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "openfga-authorization-models-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "openfga-authzenservice-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "openfga-relationship-queries-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "openfga-relationship-tuples-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "openfga-stores-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

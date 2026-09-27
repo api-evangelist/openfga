@@ -159,14 +159,14 @@ paths:
         required: true
 components:
   schemas:
-    ValidationErrorMessageResponse:
+    AbortedMessageResponse:
       type: object
       example:
-        code: validation_error
-        message: Generic validation error
+        code: '10'
+        message: transaction conflict
       properties:
         code:
-          $ref: '#/components/schemas/ErrorCode'
+          type: string
         message:
           type: string
     RelationshipCondition:
@@ -186,14 +186,29 @@ components:
             match the parameter type definitions.'
       required:
       - name
-    NotFoundErrorCode:
+    AuthErrorCode:
       type: string
       enum:
-      - no_not_found_error
-      - undefined_endpoint
-      - store_id_not_found
-      - unimplemented
-      default: no_not_found_error
+      - no_auth_error
+      - auth_failed_invalid_subject
+      - auth_failed_invalid_audience
+      - auth_failed_invalid_issuer
+      - invalid_claims
+      - auth_failed_invalid_bearer_token
+      - bearer_token_missing
+      - unauthenticated
+      - forbidden
+      default: no_auth_error
+    UnauthenticatedResponse:
+      type: object
+      example:
+        code: unauthenticated
+        message: unauthenticated
+      properties:
+        code:
+          $ref: '#/components/schemas/ErrorCode'
+        message:
+          type: string
     Assertion:
       type: object
       properties:
@@ -217,16 +232,29 @@ components:
       required:
       - tuple_key
       - expectation
-    UnauthenticatedResponse:
+    ForbiddenResponse:
       type: object
       example:
-        code: unauthenticated
-        message: unauthenticated
+        code: forbidden
+        message: the principal is not authorized to perform the action
       properties:
         code:
-          $ref: '#/components/schemas/ErrorCode'
+          $ref: '#/components/schemas/AuthErrorCode'
         message:
           type: string
+    ReadAssertionsResponse:
+      type: object
+      properties:
+        authorization_model_id:
+          type: string
+          example: 01G5JAVJ41T49E9TT3SKVS7X1J
+        assertions:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/Assertion'
+      required:
+      - authorization_model_id
     ErrorCode:
       type: string
       enum:
@@ -281,6 +309,46 @@ components:
       - cancelled
       - invalid_start_time
       default: no_error
+    InternalErrorMessageResponse:
+      type: object
+      example:
+        code: internal_error
+        message: Internal Server Error
+      properties:
+        code:
+          $ref: '#/components/schemas/InternalErrorCode'
+        message:
+          type: string
+    UnprocessableContentMessageResponse:
+      type: object
+      example:
+        code: throttled_timeout_error
+        message: timeout due to throttling on complex request
+      properties:
+        code:
+          $ref: '#/components/schemas/UnprocessableContentErrorCode'
+        message:
+          type: string
+    PathUnknownErrorMessageResponse:
+      type: object
+      example:
+        code: undefined_endpoint
+        message: Endpoint not enabled
+      properties:
+        code:
+          $ref: '#/components/schemas/NotFoundErrorCode'
+        message:
+          type: string
+    ValidationErrorMessageResponse:
+      type: object
+      example:
+        code: validation_error
+        message: Generic validation error
+      properties:
+        code:
+          $ref: '#/components/schemas/ErrorCode'
+        message:
+          type: string
     UnprocessableContentErrorCode:
       type: string
       enum:
@@ -306,16 +374,20 @@ components:
       - object
       - relation
       - user
-    UnprocessableContentMessageResponse:
-      type: object
-      example:
-        code: throttled_timeout_error
-        message: timeout due to throttling on complex request
-      properties:
-        code:
-          $ref: '#/components/schemas/UnprocessableContentErrorCode'
-        message:
-          type: string
+    InternalErrorCode:
+      type: string
+      enum:
+      - no_internal_error
+      - internal_error
+      - deadline_exceeded
+      - already_exists
+      - resource_exhausted
+      - failed_precondition
+      - aborted
+      - out_of_range
+      - unavailable
+      - data_loss
+      default: no_internal_error
     TupleKey:
       type: object
       properties:
@@ -337,83 +409,11 @@ components:
       - user
       - relation
       - object
-    InternalErrorMessageResponse:
-      type: object
-      example:
-        code: internal_error
-        message: Internal Server Error
-      properties:
-        code:
-          $ref: '#/components/schemas/InternalErrorCode'
-        message:
-          type: string
-    ForbiddenResponse:
-      type: object
-      example:
-        code: forbidden
-        message: the principal is not authorized to perform the action
-      properties:
-        code:
-          $ref: '#/components/schemas/AuthErrorCode'
-        message:
-          type: string
-    PathUnknownErrorMessageResponse:
-      type: object
-      example:
-        code: undefined_endpoint
-        message: Endpoint not enabled
-      properties:
-        code:
-          $ref: '#/components/schemas/NotFoundErrorCode'
-        message:
-          type: string
-    InternalErrorCode:
+    NotFoundErrorCode:
       type: string
       enum:
-      - no_internal_error
-      - internal_error
-      - deadline_exceeded
-      - already_exists
-      - resource_exhausted
-      - failed_precondition
-      - aborted
-      - out_of_range
-      - unavailable
-      - data_loss
-      default: no_internal_error
-    AbortedMessageResponse:
-      type: object
-      example:
-        code: '10'
-        message: transaction conflict
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-    AuthErrorCode:
-      type: string
-      enum:
-      - no_auth_error
-      - auth_failed_invalid_subject
-      - auth_failed_invalid_audience
-      - auth_failed_invalid_issuer
-      - invalid_claims
-      - auth_failed_invalid_bearer_token
-      - bearer_token_missing
-      - unauthenticated
-      - forbidden
-      default: no_auth_error
-    ReadAssertionsResponse:
-      type: object
-      properties:
-        authorization_model_id:
-          type: string
-          example: 01G5JAVJ41T49E9TT3SKVS7X1J
-        assertions:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/Assertion'
-      required:
-      - authorization_model_id
+      - no_not_found_error
+      - undefined_endpoint
+      - store_id_not_found
+      - unimplemented
+      default: no_not_found_error

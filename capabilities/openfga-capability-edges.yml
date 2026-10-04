@@ -1,0 +1,53 @@
+slug: openfga
+provider: OpenFGA
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 4
+edges:
+- tag: Relationship Queries
+  spec_file: openfga-relationship-queries-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.9
+  evidence: POST /stores/{store_id}/check Check Check whether a user is authorized to access an object
+  reason: Operations resolve whether users have relations/permissions on objects and list accessible objects/users
+    — direct access-decision and entitlement query functions of IAM.
+- tag: AuthZenService
+  spec_file: openfga-authzenservice-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.88
+  evidence: POST /stores/{store_id}/access/v1/evaluation Evaluation [Experimental] Evaluate whether a
+    subject can perform an action on a resource
+  reason: Policy-decision-point endpoints evaluating subject/action/resource authorization and searching
+    resources a subject can access — core Identity & Access Management (authorization decisioning).
+- tag: Authorization Models
+  spec_file: openfga-authorization-models-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.85
+  evidence: POST /stores/{store_id}/authorization-models WriteAuthorizationModel Create a new authorization
+    model
+  reason: CRUD over authorization models (type definitions, relations, usersets) that define access policy
+    — access management configuration, i.e. IAM.
+- tag: Relationship Tuples
+  spec_file: openfga-relationship-tuples-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.85
+  evidence: POST /stores/{store_id}/write Write Add or delete tuples from the store
+  reason: Writing and reading relationship tuples grants and revokes user-object permissions in the authorization
+    engine; this is the grant-management side of Identity & Access Management.

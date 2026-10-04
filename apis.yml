@@ -116,6 +116,9 @@ apis:
   - type: Documentation
     url: https://openfga.dev/docs/getting-started
 common:
+  - type: CapabilityMap
+    url: capabilities/openfga-capability-edges.yml
+    name: OpenFGA Business Capability Map
   - type: Website
     url: https://www.openfga.dev/
   - type: AgenticAccess

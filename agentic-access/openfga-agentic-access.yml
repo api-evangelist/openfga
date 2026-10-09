@@ -1,20 +1,84 @@
-generated: '2026-07-15'
+generated: '2026-09-23'
 method: generated
-source: openapi/openfga-openapi.json
+source: openapi/openfga-assertions-api-openapi.yml, openapi/openfga-authorization-models-api-openapi.yml,
+  openapi/openfga-authzenservice-api-openapi.yml, openapi/openfga-relationship-queries-api-openapi.yml,
+  openapi/openfga-relationship-tuples-api-openapi.yml, openapi/openfga-stores-api-openapi.yml
 description: Recommended x-agentic-access execution contracts, classified heuristically from
   the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
   audience per deployment. See research/curity/agentic-governance/.
 summary:
   operations: 24
   by_action_class:
-    connected: 7
-    acting: 17
+    connected: 10
+    acting: 14
   by_consequence:
-    read: 7
+    read: 10
     write: 9
-    physical: 8
+    physical: 5
   human_in_the_loop_required: 0
 operations:
+- path: /stores/{store_id}/assertions/{authorization_model_id}
+  method: get
+  operationId: ReadAssertions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /stores/{store_id}/assertions/{authorization_model_id}
+  method: put
+  operationId: WriteAssertions
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /stores/{store_id}/authorization-models
+  method: get
+  operationId: ReadAuthorizationModels
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /stores/{store_id}/authorization-models
+  method: post
+  operationId: WriteAuthorizationModel
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /stores/{store_id}/authorization-models/{id}
+  method: get
+  operationId: ReadAuthorizationModel
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
 - path: /.well-known/authzen-configuration/{store_id}
   method: get
   operationId: GetConfiguration
@@ -25,58 +89,6 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /stores
-  method: get
-  operationId: ListStores
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /stores
-  method: post
-  operationId: CreateStore
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /stores/{store_id}
-  method: get
-  operationId: GetStore
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /stores/{store_id}
-  method: delete
-  operationId: DeleteStore
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
 - path: /stores/{store_id}/access/v1/evaluation
   method: post
   operationId: Evaluation
@@ -157,68 +169,6 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /stores/{store_id}/assertions/{authorization_model_id}
-  method: get
-  operationId: ReadAssertions
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /stores/{store_id}/assertions/{authorization_model_id}
-  method: put
-  operationId: WriteAssertions
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /stores/{store_id}/authorization-models
-  method: get
-  operationId: ReadAuthorizationModels
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /stores/{store_id}/authorization-models
-  method: post
-  operationId: WriteAuthorizationModel
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /stores/{store_id}/authorization-models/{id}
-  method: get
-  operationId: ReadAuthorizationModel
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
 - path: /stores/{store_id}/batch-check
   method: post
   operationId: BatchCheck
@@ -237,16 +187,6 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /stores/{store_id}/changes
-  method: get
-  operationId: ReadChanges
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
 - path: /stores/{store_id}/check
   method: post
   operationId: Check
@@ -287,56 +227,22 @@ operations:
   method: post
   operationId: ListObjects
   x-agentic-access:
-    action-class: acting
-    consequence: physical
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 300
-      exchange: true
-      purpose-required: true
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /stores/{store_id}/list-users
   method: post
   operationId: ListUsers
   x-agentic-access:
-    action-class: acting
-    consequence: physical
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 300
-      exchange: true
-      purpose-required: true
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /stores/{store_id}/read
-  method: post
-  operationId: Read
-  x-agentic-access:
-    action-class: acting
-    consequence: physical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 300
-      exchange: true
-      purpose-required: true
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /stores/{store_id}/streamed-list-objects
   method: post
   operationId: StreamedListObjects
@@ -355,6 +261,26 @@ operations:
       - abnormal
       - high-value
     audit: required
+- path: /stores/{store_id}/changes
+  method: get
+  operationId: ReadChanges
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /stores/{store_id}/read
+  method: post
+  operationId: Read
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
 - path: /stores/{store_id}/write
   method: post
   operationId: Write
@@ -367,6 +293,58 @@ operations:
       max-ttl: 300
       exchange: true
       purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /stores
+  method: get
+  operationId: ListStores
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /stores
+  method: post
+  operationId: CreateStore
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /stores/{store_id}
+  method: get
+  operationId: GetStore
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /stores/{store_id}
+  method: delete
+  operationId: DeleteStore
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
     escalation:
       human-in-the-loop: conditional
       triggers:

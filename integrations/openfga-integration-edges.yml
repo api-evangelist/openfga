@@ -3,6 +3,7 @@ method: searched
 checked:
 - https://github.com/open-telemetry/opentelemetry.io/blob/main/data/ecosystem/vendors.yaml
 - https://github.com/open-telemetry/opentelemetry.io/blob/main/data/registry/
+- https://marketplace.visualstudio.com/vscode
 marketplace_apps: []
 edges:
 - partner_name: OpenTelemetry
@@ -27,6 +28,24 @@ edges:
     detected: '2026-10-13'
   detected_by: sweep-observability.py
   detected: '2026-10-13'
+- partner_name: Visual Studio Code Marketplace
+  partner: vs-code-marketplace
+  partner_match: aggregator
+  type: marketplace
+  marketplace: vscode
+  channel: partner-built
+  relationship: platform-app
+  direction: third-party
+  evidence: https://marketplace.visualstudio.com/publishers/openfga
+  listing_count: 1
+  apps:
+  - OpenFGA
+  publisher_name: OpenFGA
+  badges:
+  - Verified publisher
+  - Verified domain
+  detected_by: sweep-devtools.py
+  detected: '2026-10-14'
 source:
 - https://github.com/open-telemetry/opentelemetry.io/blob/main/data/ecosystem/vendors.yaml
 - https://github.com/open-telemetry/opentelemetry.io/blob/main/data/registry/

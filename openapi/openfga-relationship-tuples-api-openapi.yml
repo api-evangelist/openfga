@@ -545,30 +545,75 @@ paths:
         required: true
 components:
   schemas:
-    ForbiddenResponse:
+    InternalErrorMessageResponse:
       type: object
       example:
-        code: forbidden
-        message: the principal is not authorized to perform the action
+        code: internal_error
+        message: Internal Server Error
       properties:
         code:
-          $ref: '#/components/schemas/AuthErrorCode'
+          $ref: '#/components/schemas/InternalErrorCode'
         message:
           type: string
-    TupleChange:
+    AuthErrorCode:
+      type: string
+      enum:
+      - no_auth_error
+      - auth_failed_invalid_subject
+      - auth_failed_invalid_audience
+      - auth_failed_invalid_issuer
+      - invalid_claims
+      - auth_failed_invalid_bearer_token
+      - bearer_token_missing
+      - unauthenticated
+      - forbidden
+      default: no_auth_error
+    TupleKeyWithoutCondition:
       type: object
       properties:
-        tuple_key:
-          $ref: '#/components/schemas/TupleKey'
-        operation:
-          $ref: '#/components/schemas/TupleOperation'
-        timestamp:
+        user:
           type: string
-          format: date-time
+          example: user:anne
+          maxLength: 512
+        relation:
+          type: string
+          example: reader
+          maxLength: 50
+        object:
+          type: string
+          example: document:2021-budget
+          maxLength: 256
       required:
-      - tuple_key
-      - operation
-      - timestamp
+      - user
+      - relation
+      - object
+    ReadRequestTupleKey:
+      type: object
+      properties:
+        user:
+          type: string
+          example: user:anne
+          maxLength: 512
+        relation:
+          type: string
+          example: reader
+          maxLength: 50
+        object:
+          type: string
+          example: document:2021-budget
+          maxLength: 256
+    WriteResponse:
+      type: object
+    PathUnknownErrorMessageResponse:
+      type: object
+      example:
+        code: undefined_endpoint
+        message: Endpoint not enabled
+      properties:
+        code:
+          $ref: '#/components/schemas/NotFoundErrorCode'
+        message:
+          type: string
     WriteRequestDeletes:
       type: object
       properties:
@@ -588,37 +633,23 @@ components:
           description: On 'error', the API returns an error when deleting a tuple that does not exist. On 'ignore', deletes of non-existent tuples are treated as no-ops.
       required:
       - tuple_keys
-    UnprocessableContentErrorCode:
-      type: string
-      enum:
-      - no_throttled_error_code
-      - throttled_timeout_error
-      default: no_throttled_error_code
-    UnauthenticatedResponse:
-      type: object
-      example:
-        code: unauthenticated
-        message: unauthenticated
-      properties:
-        code:
-          $ref: '#/components/schemas/ErrorCode'
-        message:
-          type: string
-    ReadResponse:
+    RelationshipCondition:
       type: object
       properties:
-        tuples:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/Tuple'
-        continuation_token:
+        name:
           type: string
-          example: eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ==
-          description: The continuation token will be empty if there are no more tuples.
+          example: condition1
+          description: A reference (by name) of the relationship condition defined in the authorization model.
+          maxLength: 256
+        context:
+          type: object
+          description: 'Additional context/data to persist along with the condition.
+
+            The keys must match the parameters defined by the condition, and the value types must
+
+            match the parameter type definitions.'
       required:
-      - tuples
-      - continuation_token
+      - name
     ErrorCode:
       type: string
       enum:
@@ -673,6 +704,38 @@ components:
       - cancelled
       - invalid_start_time
       default: no_error
+    ReadChangesResponse:
+      type: object
+      properties:
+        changes:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/TupleChange'
+        continuation_token:
+          type: string
+          example: eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ==
+          description: The continuation token will be identical if there are no new changes.
+      required:
+      - changes
+    NotFoundErrorCode:
+      type: string
+      enum:
+      - no_not_found_error
+      - undefined_endpoint
+      - store_id_not_found
+      - unimplemented
+      default: no_not_found_error
+    AbortedMessageResponse:
+      type: object
+      example:
+        code: '10'
+        message: transaction conflict
+      properties:
+        code:
+          type: string
+        message:
+          type: string
     InternalErrorCode:
       type: string
       enum:
@@ -687,71 +750,6 @@ components:
       - unavailable
       - data_loss
       default: no_internal_error
-    NotFoundErrorCode:
-      type: string
-      enum:
-      - no_not_found_error
-      - undefined_endpoint
-      - store_id_not_found
-      - unimplemented
-      default: no_not_found_error
-    UnprocessableContentMessageResponse:
-      type: object
-      example:
-        code: throttled_timeout_error
-        message: timeout due to throttling on complex request
-      properties:
-        code:
-          $ref: '#/components/schemas/UnprocessableContentErrorCode'
-        message:
-          type: string
-    ReadRequestTupleKey:
-      type: object
-      properties:
-        user:
-          type: string
-          example: user:anne
-          maxLength: 512
-        relation:
-          type: string
-          example: reader
-          maxLength: 50
-        object:
-          type: string
-          example: document:2021-budget
-          maxLength: 256
-    WriteResponse:
-      type: object
-    InternalErrorMessageResponse:
-      type: object
-      example:
-        code: internal_error
-        message: Internal Server Error
-      properties:
-        code:
-          $ref: '#/components/schemas/InternalErrorCode'
-        message:
-          type: string
-    Tuple:
-      type: object
-      properties:
-        key:
-          $ref: '#/components/schemas/TupleKey'
-        timestamp:
-          type: string
-          format: date-time
-      required:
-      - key
-      - timestamp
-    ConsistencyPreference:
-      type: string
-      enum:
-      - UNSPECIFIED
-      - MINIMIZE_LATENCY
-      - HIGHER_CONSISTENCY
-      default: UNSPECIFIED
-      description: "Controls the consistency preferences when calling the query APIs.\n\n - UNSPECIFIED: Default if not set. Behavior will be the same as MINIMIZE_LATENCY.\n - MINIMIZE_LATENCY: Minimize latency at the potential expense of lower consistency.\n - HIGHER_CONSISTENCY: Prefer higher consistency, at the potential expense of increased latency."
-      example: MINIMIZE_LATENCY
     TupleKey:
       type: object
       properties:
@@ -773,23 +771,63 @@ components:
       - user
       - relation
       - object
-    RelationshipCondition:
+    UnprocessableContentMessageResponse:
+      type: object
+      example:
+        code: throttled_timeout_error
+        message: timeout due to throttling on complex request
+      properties:
+        code:
+          $ref: '#/components/schemas/UnprocessableContentErrorCode'
+        message:
+          type: string
+    ReadResponse:
       type: object
       properties:
-        name:
+        tuples:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/Tuple'
+        continuation_token:
           type: string
-          example: condition1
-          description: A reference (by name) of the relationship condition defined in the authorization model.
-          maxLength: 256
-        context:
-          type: object
-          description: 'Additional context/data to persist along with the condition.
-
-            The keys must match the parameters defined by the condition, and the value types must
-
-            match the parameter type definitions.'
+          example: eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ==
+          description: The continuation token will be empty if there are no more tuples.
       required:
-      - name
+      - tuples
+      - continuation_token
+    UnprocessableContentErrorCode:
+      type: string
+      enum:
+      - no_throttled_error_code
+      - throttled_timeout_error
+      default: no_throttled_error_code
+    TupleOperation:
+      type: string
+      enum:
+      - TUPLE_OPERATION_WRITE
+      - TUPLE_OPERATION_DELETE
+      default: TUPLE_OPERATION_WRITE
+      title: buf:lint:ignore ENUM_ZERO_VALUE_SUFFIX
+    ForbiddenResponse:
+      type: object
+      example:
+        code: forbidden
+        message: the principal is not authorized to perform the action
+      properties:
+        code:
+          $ref: '#/components/schemas/AuthErrorCode'
+        message:
+          type: string
+    ConsistencyPreference:
+      type: string
+      enum:
+      - UNSPECIFIED
+      - MINIMIZE_LATENCY
+      - HIGHER_CONSISTENCY
+      default: UNSPECIFIED
+      description: "Controls the consistency preferences when calling the query APIs.\n\n - UNSPECIFIED: Default if not set. Behavior will be the same as MINIMIZE_LATENCY.\n - MINIMIZE_LATENCY: Minimize latency at the potential expense of lower consistency.\n - HIGHER_CONSISTENCY: Prefer higher consistency, at the potential expense of increased latency."
+      example: MINIMIZE_LATENCY
     WriteRequestWrites:
       type: object
       properties:
@@ -809,42 +847,41 @@ components:
           description: On 'error' ( or unspecified ), the API returns an error if an identical tuple already exists. On 'ignore', identical writes are treated as no-ops (matching on user, relation, object, and RelationshipCondition).
       required:
       - tuple_keys
-    TupleKeyWithoutCondition:
+    Tuple:
       type: object
       properties:
-        user:
+        key:
+          $ref: '#/components/schemas/TupleKey'
+        timestamp:
           type: string
-          example: user:anne
-          maxLength: 512
-        relation:
-          type: string
-          example: reader
-          maxLength: 50
-        object:
-          type: string
-          example: document:2021-budget
-          maxLength: 256
+          format: date-time
       required:
-      - user
-      - relation
-      - object
-    AbortedMessageResponse:
+      - key
+      - timestamp
+    UnauthenticatedResponse:
       type: object
       example:
-        code: '10'
-        message: transaction conflict
+        code: unauthenticated
+        message: unauthenticated
       properties:
         code:
-          type: string
+          $ref: '#/components/schemas/ErrorCode'
         message:
           type: string
-    TupleOperation:
-      type: string
-      enum:
-      - TUPLE_OPERATION_WRITE
-      - TUPLE_OPERATION_DELETE
-      default: TUPLE_OPERATION_WRITE
-      title: buf:lint:ignore ENUM_ZERO_VALUE_SUFFIX
+    TupleChange:
+      type: object
+      properties:
+        tuple_key:
+          $ref: '#/components/schemas/TupleKey'
+        operation:
+          $ref: '#/components/schemas/TupleOperation'
+        timestamp:
+          type: string
+          format: date-time
+      required:
+      - tuple_key
+      - operation
+      - timestamp
     ValidationErrorMessageResponse:
       type: object
       example:
@@ -853,42 +890,5 @@ components:
       properties:
         code:
           $ref: '#/components/schemas/ErrorCode'
-        message:
-          type: string
-    AuthErrorCode:
-      type: string
-      enum:
-      - no_auth_error
-      - auth_failed_invalid_subject
-      - auth_failed_invalid_audience
-      - auth_failed_invalid_issuer
-      - invalid_claims
-      - auth_failed_invalid_bearer_token
-      - bearer_token_missing
-      - unauthenticated
-      - forbidden
-      default: no_auth_error
-    ReadChangesResponse:
-      type: object
-      properties:
-        changes:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/TupleChange'
-        continuation_token:
-          type: string
-          example: eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ==
-          description: The continuation token will be identical if there are no new changes.
-      required:
-      - changes
-    PathUnknownErrorMessageResponse:
-      type: object
-      example:
-        code: undefined_endpoint
-        message: Endpoint not enabled
-      properties:
-        code:
-          $ref: '#/components/schemas/NotFoundErrorCode'
         message:
           type: string

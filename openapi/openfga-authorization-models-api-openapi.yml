@@ -467,15 +467,65 @@ paths:
       - Authorization Models
 components:
   schemas:
-    ForbiddenResponse:
+    InternalErrorMessageResponse:
       type: object
       example:
-        code: forbidden
-        message: the principal is not authorized to perform the action
+        code: internal_error
+        message: Internal Server Error
       properties:
         code:
-          $ref: '#/components/schemas/AuthErrorCode'
+          $ref: '#/components/schemas/InternalErrorCode'
         message:
+          type: string
+    AuthErrorCode:
+      type: string
+      enum:
+      - no_auth_error
+      - auth_failed_invalid_subject
+      - auth_failed_invalid_audience
+      - auth_failed_invalid_issuer
+      - invalid_claims
+      - auth_failed_invalid_bearer_token
+      - bearer_token_missing
+      - unauthenticated
+      - forbidden
+      default: no_auth_error
+    ConditionMetadata:
+      type: object
+      properties:
+        module:
+          type: string
+        source_info:
+          $ref: '#/components/schemas/SourceInfo'
+    v1.Difference:
+      type: object
+      properties:
+        base:
+          $ref: '#/components/schemas/Userset'
+        subtract:
+          $ref: '#/components/schemas/Userset'
+      required:
+      - base
+      - subtract
+    Userset:
+      type: object
+      properties:
+        this:
+          $ref: '#/components/schemas/DirectUserset'
+        computedUserset:
+          $ref: '#/components/schemas/ObjectRelation'
+        tupleToUserset:
+          $ref: '#/components/schemas/v1.TupleToUserset'
+        union:
+          $ref: '#/components/schemas/Usersets'
+        intersection:
+          $ref: '#/components/schemas/Usersets'
+        difference:
+          $ref: '#/components/schemas/v1.Difference'
+    SourceInfo:
+      type: object
+      properties:
+        file:
           type: string
     Condition:
       type: object
@@ -496,125 +546,45 @@ components:
       required:
       - name
       - expression
-    Metadata:
+    TypeDefinition:
       type: object
       properties:
+        type:
+          type: string
+          example: document
         relations:
           type: object
-          additionalProperties:
-            $ref: '#/components/schemas/RelationMetadata'
-        module:
-          type: string
-        source_info:
-          $ref: '#/components/schemas/SourceInfo'
-    ConditionMetadata:
-      type: object
-      properties:
-        module:
-          type: string
-        source_info:
-          $ref: '#/components/schemas/SourceInfo'
-    RelationMetadata:
-      type: object
-      properties:
-        directly_related_user_types:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/RelationReference'
-        module:
-          type: string
-        source_info:
-          $ref: '#/components/schemas/SourceInfo'
-    AuthorizationModel:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 01G5JAVJ41T49E9TT3SKVS7X1J
-        schema_version:
-          type: string
-        type_definitions:
-          type: array
           example:
-          - type: user
-          - type: document
-            relations:
-              reader:
-                union:
-                  child:
-                  - this: {}
-                  - computedUserset:
-                      object: ''
-                      relation: writer
-              writer:
-                this: {}
-            metadata:
-              relations:
-                reader:
-                  directly_related_user_types:
-                  - type: user
-                writer:
-                  directly_related_user_types:
-                  - type: user
-          items:
-            type: object
-            $ref: '#/components/schemas/TypeDefinition'
-        conditions:
-          type: object
+            reader:
+              union:
+                child:
+                - this: {}
+                - computedUserset:
+                    object: ''
+                    relation: writer
+            writer:
+              this: {}
           additionalProperties:
-            $ref: '#/components/schemas/Condition'
+            $ref: '#/components/schemas/Userset'
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+          description: 'A map whose keys are the name of the relation and whose value is the Metadata for that relation.
+
+            It also holds information around the module name and source file if this model was constructed
+
+            from a modular model.'
       required:
-      - id
-      - schema_version
-      - type_definitions
-    UnauthenticatedResponse:
+      - type
+    PathUnknownErrorMessageResponse:
       type: object
       example:
-        code: unauthenticated
-        message: unauthenticated
+        code: undefined_endpoint
+        message: Endpoint not enabled
       properties:
         code:
-          $ref: '#/components/schemas/ErrorCode'
+          $ref: '#/components/schemas/NotFoundErrorCode'
         message:
           type: string
-    UnprocessableContentErrorCode:
-      type: string
-      enum:
-      - no_throttled_error_code
-      - throttled_timeout_error
-      default: no_throttled_error_code
-    ObjectRelation:
-      type: object
-      properties:
-        object:
-          type: string
-        relation:
-          type: string
-    ReadAuthorizationModelsResponse:
-      type: object
-      properties:
-        authorization_models:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/AuthorizationModel'
-        continuation_token:
-          type: string
-          example: eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ==
-          description: The continuation token will be empty if there are no more models.
-      required:
-      - authorization_models
-    SourceInfo:
-      type: object
-      properties:
-        file:
-          type: string
-    ReadAuthorizationModelResponse:
-      type: object
-      properties:
-        authorization_model:
-          $ref: '#/components/schemas/AuthorizationModel'
     ErrorCode:
       type: string
       enum:
@@ -669,6 +639,35 @@ components:
       - cancelled
       - invalid_start_time
       default: no_error
+    v1.TupleToUserset:
+      type: object
+      properties:
+        tupleset:
+          $ref: '#/components/schemas/ObjectRelation'
+          title: The target object/relation
+        computedUserset:
+          $ref: '#/components/schemas/ObjectRelation'
+      required:
+      - tupleset
+      - computedUserset
+    NotFoundErrorCode:
+      type: string
+      enum:
+      - no_not_found_error
+      - undefined_endpoint
+      - store_id_not_found
+      - unimplemented
+      default: no_not_found_error
+    AbortedMessageResponse:
+      type: object
+      example:
+        code: '10'
+        message: transaction conflict
+      properties:
+        code:
+          type: string
+        message:
+          type: string
     InternalErrorCode:
       type: string
       enum:
@@ -683,14 +682,6 @@ components:
       - unavailable
       - data_loss
       default: no_internal_error
-    NotFoundErrorCode:
-      type: string
-      enum:
-      - no_not_found_error
-      - undefined_endpoint
-      - store_id_not_found
-      - unimplemented
-      default: no_not_found_error
     WriteAuthorizationModelResponse:
       type: object
       properties:
@@ -709,39 +700,6 @@ components:
           $ref: '#/components/schemas/UnprocessableContentErrorCode'
         message:
           type: string
-    v1.TupleToUserset:
-      type: object
-      properties:
-        tupleset:
-          $ref: '#/components/schemas/ObjectRelation'
-          title: The target object/relation
-        computedUserset:
-          $ref: '#/components/schemas/ObjectRelation'
-      required:
-      - tupleset
-      - computedUserset
-    Wildcard:
-      type: object
-    v1.Difference:
-      type: object
-      properties:
-        base:
-          $ref: '#/components/schemas/Userset'
-        subtract:
-          $ref: '#/components/schemas/Userset'
-      required:
-      - base
-      - subtract
-    InternalErrorMessageResponse:
-      type: object
-      example:
-        code: internal_error
-        message: Internal Server Error
-      properties:
-        code:
-          $ref: '#/components/schemas/InternalErrorCode'
-        message:
-          type: string
     Usersets:
       type: object
       properties:
@@ -752,6 +710,22 @@ components:
             $ref: '#/components/schemas/Userset'
       required:
       - child
+    ReadAuthorizationModelResponse:
+      type: object
+      properties:
+        authorization_model:
+          $ref: '#/components/schemas/AuthorizationModel'
+    UnprocessableContentErrorCode:
+      type: string
+      enum:
+      - no_throttled_error_code
+      - throttled_timeout_error
+      default: no_throttled_error_code
+    DirectUserset:
+      type: object
+      description: 'A DirectUserset is a sentinel message for referencing
+
+        the direct members specified by an object/relation mapping.'
     TypeName:
       type: string
       enum:
@@ -768,6 +742,13 @@ components:
       - TYPE_NAME_LIST
       - TYPE_NAME_IPADDRESS
       default: TYPE_NAME_UNSPECIFIED
+    ObjectRelation:
+      type: object
+      properties:
+        object:
+          type: string
+        relation:
+          type: string
     ConditionParamTypeRef:
       type: object
       properties:
@@ -780,73 +761,107 @@ components:
             $ref: '#/components/schemas/ConditionParamTypeRef'
       required:
       - type_name
-    AbortedMessageResponse:
+    ForbiddenResponse:
       type: object
       example:
-        code: '10'
-        message: transaction conflict
+        code: forbidden
+        message: the principal is not authorized to perform the action
       properties:
         code:
-          type: string
+          $ref: '#/components/schemas/AuthErrorCode'
         message:
           type: string
-    TypeDefinition:
+    AuthorizationModel:
       type: object
       properties:
-        type:
+        id:
           type: string
-          example: document
+          example: 01G5JAVJ41T49E9TT3SKVS7X1J
+        schema_version:
+          type: string
+        type_definitions:
+          type: array
+          example:
+          - type: user
+          - type: document
+            relations:
+              reader:
+                union:
+                  child:
+                  - this: {}
+                  - computedUserset:
+                      object: ''
+                      relation: writer
+              writer:
+                this: {}
+            metadata:
+              relations:
+                reader:
+                  directly_related_user_types:
+                  - type: user
+                writer:
+                  directly_related_user_types:
+                  - type: user
+          items:
+            type: object
+            $ref: '#/components/schemas/TypeDefinition'
+        conditions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Condition'
+      required:
+      - id
+      - schema_version
+      - type_definitions
+    Metadata:
+      type: object
+      properties:
         relations:
           type: object
-          example:
-            reader:
-              union:
-                child:
-                - this: {}
-                - computedUserset:
-                    object: ''
-                    relation: writer
-            writer:
-              this: {}
           additionalProperties:
-            $ref: '#/components/schemas/Userset'
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-          description: 'A map whose keys are the name of the relation and whose value is the Metadata for that relation.
-
-            It also holds information around the module name and source file if this model was constructed
-
-            from a modular model.'
-      required:
-      - type
-    DirectUserset:
+            $ref: '#/components/schemas/RelationMetadata'
+        module:
+          type: string
+        source_info:
+          $ref: '#/components/schemas/SourceInfo'
+    Wildcard:
       type: object
-      description: 'A DirectUserset is a sentinel message for referencing
-
-        the direct members specified by an object/relation mapping.'
-    ValidationErrorMessageResponse:
+    ReadAuthorizationModelsResponse:
+      type: object
+      properties:
+        authorization_models:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/AuthorizationModel'
+        continuation_token:
+          type: string
+          example: eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ==
+          description: The continuation token will be empty if there are no more models.
+      required:
+      - authorization_models
+    UnauthenticatedResponse:
       type: object
       example:
-        code: validation_error
-        message: Generic validation error
+        code: unauthenticated
+        message: unauthenticated
       properties:
         code:
           $ref: '#/components/schemas/ErrorCode'
         message:
           type: string
-    AuthErrorCode:
-      type: string
-      enum:
-      - no_auth_error
-      - auth_failed_invalid_subject
-      - auth_failed_invalid_audience
-      - auth_failed_invalid_issuer
-      - invalid_claims
-      - auth_failed_invalid_bearer_token
-      - bearer_token_missing
-      - unauthenticated
-      - forbidden
-      default: no_auth_error
+    RelationMetadata:
+      type: object
+      properties:
+        directly_related_user_types:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/RelationReference'
+        module:
+          type: string
+        source_info:
+          $ref: '#/components/schemas/SourceInfo'
     RelationReference:
       type: object
       properties:
@@ -864,28 +879,13 @@ components:
       description: RelationReference represents a relation of a particular object type (e.g. 'document#viewer').
       required:
       - type
-    PathUnknownErrorMessageResponse:
+    ValidationErrorMessageResponse:
       type: object
       example:
-        code: undefined_endpoint
-        message: Endpoint not enabled
+        code: validation_error
+        message: Generic validation error
       properties:
         code:
-          $ref: '#/components/schemas/NotFoundErrorCode'
+          $ref: '#/components/schemas/ErrorCode'
         message:
           type: string
-    Userset:
-      type: object
-      properties:
-        this:
-          $ref: '#/components/schemas/DirectUserset'
-        computedUserset:
-          $ref: '#/components/schemas/ObjectRelation'
-        tupleToUserset:
-          $ref: '#/components/schemas/v1.TupleToUserset'
-        union:
-          $ref: '#/components/schemas/Usersets'
-        intersection:
-          $ref: '#/components/schemas/Usersets'
-        difference:
-          $ref: '#/components/schemas/v1.Difference'

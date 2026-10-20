@@ -50,3 +50,9 @@ tool_quality:
   scored: false
   note: Facts from the saved tools/list capture (mcp_tool_quality.py); recorded, not scored. Checks learned
     from Glimind's agent-readiness audit.
+tools:
+- name: get_context_for_query
+  description: Get relevant context prompt based on a query
+- name: list_available_contexts
+  description: List all available context prompts and their descriptions
+tools_count: 2
